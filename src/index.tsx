@@ -1,19 +1,50 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppProvider from "./Context";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import theme from "./theme";
+import { WagmiProvider } from "wagmi";
+import { config } from "./utils/wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// import "@fontsource/montserrat"; // Defaults to weight 400
+// import "@fontsource/montserrat/400.css"; // Specify weight
+// import "@fontsource/montserrat/400-italic.css"; // Specify weight and style
+import { Toaster } from "react-hot-toast";
+import "./utils/web3modal";
+
+// import "@fontsource/montserrat/200.css";
+// import "@fontsource/montserrat/300.css";
+// import "@fontsource/montserrat/400.css";
+// import "@fontsource/montserrat/500.css";
+
+// import "@fontsource/montserrat/600.css";
+// import "@fontsource/montserrat/700.css";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  document.getElementById("root") as HTMLElement
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const queryClient = new QueryClient();
+
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <Router>
+        <AppProvider>
+          <Toaster />
+          <ChakraProvider theme={theme}>
+            <WagmiProvider config={config}>
+              <QueryClientProvider client={queryClient}>
+                <App />
+              </QueryClientProvider>
+            </WagmiProvider>
+          </ChakraProvider>
+        </AppProvider>
+      </Router>
+    </Provider>
+  </React.StrictMode>
+);

@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import Profile from "./pages/Profile";
+import Onboarding1 from "./components/Onboarding/Onboarding1";
+import Campaign from "./components/Campaign";
+import Details from "./components/Campaign/Details";
+import MessagePage from "./pages/Message";
+import ConnectWallet from "./components/LandingPage/ConnectWallet";
 
-function App() {
+const App = () => {
+  // const { initialized } = React.useContext(AppContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const publicKey = null;
+  React.useMemo(() => {
+    if (publicKey === null) {
+      if (location.pathname.includes("details/")) {
+        return;
+      } else {
+        navigate("/", {
+          state: location || "campaign",
+        });
+      }
+    }
+  }, [publicKey]);
+
+  React.useEffect(() => {
+    if (publicKey === null) {
+      if (location.pathname.includes("details/")) {
+        return;
+      } else {
+        navigate("/", {
+          state: location || "campaign",
+        });
+      }
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="connect-wallet" element={<ConnectWallet />} />
+        <Route path="onboarding" element={<Onboarding1 />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="campaign" element={<Campaign />} />
+        <Route path="details/:id" element={<Details />} />
+        <Route path="message" element={<MessagePage />} />
+      </Routes>
+    </React.Fragment>
   );
-}
+};
 
 export default App;
