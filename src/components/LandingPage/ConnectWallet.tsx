@@ -14,13 +14,20 @@ import toast from "react-hot-toast";
 import Navbar from "../Navbar/Nav2";
 import Footer from "../Footer";
 import { useAccount } from "wagmi";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 function ConnectWallet() {
   const navigate = useNavigate();
   const account = useAccount();
   console.log(account);
+  const { open, close } = useWeb3Modal();
 
-  const handleClick = async () => {};
+  const handleClick = async () => {
+    open();
+    if (account.address != undefined) {
+      navigate("/onboarding");
+    }
+  };
 
   return (
     <Box h="100vh">
@@ -37,8 +44,8 @@ function ConnectWallet() {
               Connect your wallet to raise funds with Zetachain and other assets
             </Text>
             <Flex mt={8}>
-              <w3m-button balance="hide" />
-              {/* <Button onClick={handleClick}>Connect Wallet</Button> */}
+              {/* <w3m-button balance="hide" /> */}
+              <Button onClick={handleClick}>Connect Wallet</Button>
             </Flex>
           </Center>
         </Container>

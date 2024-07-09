@@ -32,19 +32,19 @@ const queryClient = new QueryClient();
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Router>
-        <AppProvider>
-          <Toaster />
-          <ChakraProvider theme={theme}>
-            <WagmiProvider config={config}>
+    <WagmiProvider config={config}>
+      <Provider store={store}>
+        <Router>
+          <AppProvider>
+            <Toaster />
+            <ChakraProvider theme={theme}>
               <QueryClientProvider client={queryClient}>
                 <App />
               </QueryClientProvider>
-            </WagmiProvider>
-          </ChakraProvider>
-        </AppProvider>
-      </Router>
-    </Provider>
+            </ChakraProvider>
+          </AppProvider>
+        </Router>
+      </Provider>
+    </WagmiProvider>
   </React.StrictMode>
 );

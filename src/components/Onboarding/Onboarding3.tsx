@@ -11,14 +11,56 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../Context";
+import { useAccount, useWriteContract, BaseError, useConnect } from "wagmi";
+import contractAbi from "../../contract/CrowdFunding-abi.json";
+import { config } from "../../utils/wagmi";
+import { zetachainAthensTestnet } from "viem/chains";
+import { injected } from "wagmi/connectors";
+
+const contractAddress = "0x310f934b1bc2E40b1b9Acce4895574e79DD716F8";
 
 function Onboarding3() {
-  const { bio, setBio, initUser } = React.useContext(AppContext);
+  const { bio, tags, amount, setBio, initUser } = React.useContext(AppContext);
   const navigate = useNavigate();
+  const { address } = useAccount();
+  const { writeContract, data, error, writeContractAsync } = useWriteContract({
+    config,
+  });
+  const { connectAsync } = useConnect();
+  // console.log(BaseError, "data", data, error, "address  ===>", address);
 
-  const handleCreateUser = () => {
-    initUser();
+  // const handleCreateUser = () => {
+  //   // initUser();
+  //   writeContract({
+  //     abi: contractAbi.abi,
+  //     address: contractAddress,
+  //     functionName: "create",
+  //     args: [bio.name, bio.description, Number(amount), ["tags"]],
+  //   });
+  // };
+
+  const handleCreateUser = async () => {
+    try {
+      if (!address) {
+        await connectAsync({
+          chainId: zetachainAthensTestnet.id,
+          connector: injected(),
+        });
+      }
+
+      const data = await writeContractAsync({
+        chainId: zetachainAthensTestnet.id,
+        address: contractAddress, // change to receipient address
+        functionName: "create",
+        abi: contractAbi.abi,
+        args: [bio.name, bio.description, Number(amount), ["tags"]],
+      });
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   return (
     <Box>
       <Box>

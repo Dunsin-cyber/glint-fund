@@ -9,6 +9,10 @@ import {
   addTransaction,
   clearTransactions,
 } from "../redux/slice/TransactionSlice";
+import { useAccount, useReadContract } from "wagmi";
+import contractAbi from "../contract/CrowdFunding-abi.json";
+
+const contractAddress = "0x310f934b1bc2E40b1b9Acce4895574e79DD716F8";
 
 type bioT = {
   name: string;
@@ -77,11 +81,22 @@ export const AppProvider = ({ children }: any) => {
   // console.log("publickey type", publicKey);
   const dispatch = useAppDispatch();
   const recipient = useAppSelector((state) => state.recipient);
-  const getUser = async () => {};
+
+  const { address } = useAccount();
+  const getUser = async () => {
+    // const { data: contractData } = useReadContract({
+    //   address: contractAddress,
+    //   abi: contractAbi.abi,
+    //   functionName: "getProfile", // Replace with the actual function name
+    // });
+    // console.debug("[get user func]-", contractData);
+  };
 
   const smartContract = async () => {};
 
-  const initUser = async () => {};
+  const initUser = async () => {
+    console.log(bio, tags, amount, address);
+  };
 
   const getAllCampaigns = async () => {};
 
@@ -90,6 +105,10 @@ export const AppProvider = ({ children }: any) => {
   const donate = async (val: number) => {};
 
   const getTransactions = async () => {};
+
+  React.useEffect(() => {
+    getUser();
+  }, [address]);
 
   return (
     <AppContext.Provider
