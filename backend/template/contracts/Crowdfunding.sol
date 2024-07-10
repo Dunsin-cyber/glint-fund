@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.7;
 
-import "@zetachain/contracts/access/Ownable.sol";
+// import "@openzeppelin/contracts/access/Ownable.sol";
 import "@zetachain/protocol-contracts/contracts/zevm/SystemContract.sol";
 import "@zetachain/protocol-contracts/contracts/zevm/interfaces/zContract.sol";
 import "@zetachain/toolkit/contracts/OnlySystem.sol";
 
-contract Crowdfunding is zContract, OnlySystem, Ownable {
+contract Crowdfunding is zContract, OnlySystem {
 
     SystemContract public systemContract;
 
@@ -36,9 +36,9 @@ contract Crowdfunding is zContract, OnlySystem, Ownable {
     }
 
     struct Letter {
-        string : letter;// "D"
-        uint8 :  valuePoint; // 2
-        string : position; // "empty
+        string  letter;// "D"
+        uint8   valuePoint; // 2
+        string position; // "empty
     }
 
     
