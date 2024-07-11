@@ -97,16 +97,16 @@ function Step1() {
         </Text>
         <Text pt={4} fontSize="16px">
           funding are 100 percent on-chain, secure and tamper-proof on the
-          solana blockchain. You can fund with any of the solana tokens but
-          primarily with solana
+          Zetachain Blockchain. You can fund with any of the compatible tokens
+          on Zetachain
         </Text>
       </Box>
       {/* pick funding type */}
       <Flex pt={4}>
-        <Select size="lg" variant="outline" placeholder="Solana">
-          <option value="Solana">Solana</option>
-          <option value="Jupiter">Jupiter</option>
-          <option value="woof">Woof</option>
+        <Select size="lg" variant="outline" placeholder="Zeta">
+          {/* <option value="Zeta">Zeta</option> */}
+          <option value="BNB">BNB</option>
+          <option value="BTC">BTC</option>
         </Select>
         {/* <Input value={publicKey?.toString()} isReadOnly size="lg" /> */}
       </Flex>

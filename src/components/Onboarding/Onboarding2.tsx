@@ -48,7 +48,7 @@ function Onboarding2() {
             <NumberInputField />
           </NumberInput>
         </InputGroup>
-        <Input placeholder="equivalen solana presently" size="lg" />
+        <Input placeholder="equivalen zeta presently" size="lg" />
       </Flex>
       {/* funding sector */}
 

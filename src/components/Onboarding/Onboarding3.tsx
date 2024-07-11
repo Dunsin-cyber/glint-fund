@@ -22,6 +22,7 @@ import { config } from "../../utils/wagmi";
 import { zetachainAthensTestnet } from "viem/chains";
 import { injected } from "wagmi/connectors";
 import { useGetACampaign } from "../../hooks";
+import toast from "react-hot-toast";
 const contractAddress = "0x835F1F5a5578E49b5D163954cCdA60333c3ffC89";
 
 function Onboarding3() {
@@ -55,9 +56,12 @@ function Onboarding3() {
       });
 
       console.log(data, camp);
+      toast("Account Created Successfully");
+      navigate("/profile");
       setLoading(false);
     } catch (err) {
       console.log(err);
+      toast("Something Went Wrong");
       setLoading(false);
     }
   };
