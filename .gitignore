@@ -23,5 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 backend/template/node_modules
+backend/template/.env
 contract/node_modules
 
