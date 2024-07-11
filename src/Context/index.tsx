@@ -108,6 +108,11 @@ export const AppProvider = ({ children }: any) => {
 
   React.useEffect(() => {
     getUser();
+    //TODO: fetxh campagn from contract based on this address
+    // if campaign does not exist, navigate to onboarding
+    if (address != undefined) {
+      navigate("/onboarding");
+    }
   }, [address]);
 
   return (

@@ -11,7 +11,7 @@ function Footer() {
     >
       <Flex>
         <Text size="24px" fontWeight={500}>
-          Powered by Solana
+          Powered by Zetachain
         </Text>
       </Flex>
       <Flex>

@@ -1,45 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Text,
   Input,
   Button,
   Flex,
-  InputGroup,
-  InputLeftElement,
   Textarea,
+  useTimeout,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../Context";
-import { useAccount, useWriteContract, BaseError, useConnect } from "wagmi";
+import {
+  useAccount,
+  useWriteContract,
+  BaseError,
+  useConnect,
+  useReadContract,
+} from "wagmi";
 import contractAbi from "../../contract/CrowdFunding-abi.json";
 import { config } from "../../utils/wagmi";
 import { zetachainAthensTestnet } from "viem/chains";
 import { injected } from "wagmi/connectors";
-
-const contractAddress = "0x310f934b1bc2E40b1b9Acce4895574e79DD716F8";
+import { useGetACampaign } from "../../hooks";
+const contractAddress = "0x835F1F5a5578E49b5D163954cCdA60333c3ffC89";
 
 function Onboarding3() {
   const { bio, tags, amount, setBio, initUser } = React.useContext(AppContext);
   const navigate = useNavigate();
   const { address } = useAccount();
-  const { writeContract, data, error, writeContractAsync } = useWriteContract({
+  const { data, error, writeContractAsync } = useWriteContract({
     config,
   });
   const { connectAsync } = useConnect();
-  // console.log(BaseError, "data", data, error, "address  ===>", address);
+  const [loading, setLoading] = React.useState(false);
 
-  // const handleCreateUser = () => {
-  //   // initUser();
-  //   writeContract({
-  //     abi: contractAbi.abi,
-  //     address: contractAddress,
-  //     functionName: "create",
-  //     args: [bio.name, bio.description, Number(amount), ["tags"]],
-  //   });
-  // };
+  const { data: camp } = useGetACampaign(2);
 
   const handleCreateUser = async () => {
+    setLoading(true);
     try {
       if (!address) {
         await connectAsync({
@@ -55,9 +53,12 @@ function Onboarding3() {
         abi: contractAbi.abi,
         args: [bio.name, bio.description, Number(amount), ["tags"]],
       });
-      console.log(data);
+
+      console.log(data, camp);
+      setLoading(false);
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   };
 
@@ -107,6 +108,7 @@ function Onboarding3() {
           color="white"
           bgColor="primary.50"
           onClick={handleCreateUser}
+          isLoading={loading}
           isDisabled={bio.name.length < 3 && bio.description.length < 3}
         >
           Create

@@ -24,9 +24,6 @@ function ConnectWallet() {
 
   const handleClick = async () => {
     open();
-    if (account.address != undefined) {
-      navigate("/onboarding");
-    }
   };
 
   return (

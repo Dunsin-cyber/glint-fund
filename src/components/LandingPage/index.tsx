@@ -54,10 +54,10 @@ function LandingPage() {
             fontWeight={500}
             fontStyle={"bold"}
           >
-            Easily raise funds with Solana in 10 seconds
+            Easily raise funds with Zetachain in 10 seconds
           </Text>
           <Text mt={10} textAlign={{ base: "center", md: "left" }}>
-            Get crowd funds, manage NFT’s and manage your solana balances
+            Get crowd funds, manage NFT’s and manage your zetachain balances
           </Text>
           <Hide below="md">
             <Button
@@ -90,7 +90,7 @@ function LandingPage() {
           <Image
             w={{ base: 211, md: 448 }}
             h={{ base: 175, md: 371 }}
-            src="/landing-page-icon.svg"
+            src="/landing-page-logo.svg"
           />
           <Show below="md">
             <Button

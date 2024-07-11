@@ -6,7 +6,7 @@ function Nav2() {
     <Flex justify="space-between" mx="48px" mt="24px">
       <Flex>
         <Text size="24px" fontStyle="bold" fontWeight={700}>
-          SOLFUND
+          ZETAFUND
         </Text>
       </Flex>
       <Hide below="md">
