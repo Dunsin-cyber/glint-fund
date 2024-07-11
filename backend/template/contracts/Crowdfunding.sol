@@ -21,26 +21,33 @@ contract Crowdfunding is zContract, OnlySystem {
         uint64 amount_donated;   // Amount donated so far
     }
 
-     mapping(uint8 => Campaign) public campaigns;
+    struct UserProfile {
+        address userAddress;
+        string username;
+        string email;
+        string bio;
+        string[] socialLinks;
+    }
+
+    mapping(uint8 => Campaign) public campaigns;
     uint8 public campaignCount;
+    uint256 public userCount;
     mapping(uint8 => mapping(address => uint64)) public pledgedAmount;
+    mapping(address => uint8[]) public userCampaigns;
+    mapping(address => UserProfile) public userProfiles;
+    address[] public userAddresses;
+
 
      event Launch(uint8 id, address indexed admin, string name, string description, uint64 amount_required, string[] tags);
     event Pledge(uint8 indexed id, address indexed pledger, uint64 amount);
     event Unpledge(uint8 indexed id, address indexed pledger, uint64 amount);
     event Claim(uint8 id);
     event Refund(uint8 id, address indexed pledger, uint64 amount);
+    event UserProfileUpdated(address indexed userAddress, string username, string email, string bio, string[] socialLinks);
 
     constructor(address systemContractAddress) {
         systemContract = SystemContract(systemContractAddress);
     }
-
-    struct Letter {
-        string  letter;// "D"
-        uint8   valuePoint; // 2
-        string position; // "empty
-    }
-
     
 
     function create(string memory name, string memory description, uint64 amount_required, string[] memory tags) external {
@@ -55,6 +62,7 @@ contract Crowdfunding is zContract, OnlySystem {
             description: description,
             amount_donated: 0
         });
+        userCampaigns[msg.sender].push(campaignCount);
 
         emit Launch(campaignCount, msg.sender, name, description, amount_required, tags);
     }
@@ -68,6 +76,71 @@ contract Crowdfunding is zContract, OnlySystem {
         pledgedAmount[id][msg.sender] += uint64(msg.value);
 
         emit Pledge(id, msg.sender, uint64(msg.value));
+    }
+
+    // Get all campaigns
+    function getAllCampaigns() external view returns (Campaign[] memory) {
+        Campaign[] memory allCampaigns = new Campaign[](campaignCount);
+        for (uint8 i = 1; i <= campaignCount; i++) {
+            allCampaigns[i - 1] = campaigns[i];
+        }
+        return allCampaigns;
+    }
+
+    // Get a specific campaign
+    function getCampaign(uint8 campaignId) external view returns (Campaign memory) {
+        require(campaignId > 0 && campaignId <= campaignCount, "Campaign does not exist");
+        return campaigns[campaignId];
+    }
+
+    // // Get campaigns by user
+    // function getUserCampaigns(address user) external view returns (Campaign[] memory) {
+    //     uint8[] memory userCampaignIds = userCampaigns[user];
+    //     Campaign[] memory userCampaignsList = new Campaign[](userCampaignIds.length);
+
+    //     for (uint256 i = 0; i < userCampaignIds.length; i++) {
+    //         userCampaignsList[i] = campaigns[userCampaigns[i]];
+    //     }
+
+    //     return userCampaignsList;
+    // }
+
+     // Manage user profile
+    function updateUserProfile(
+        string memory username,
+        string memory email,
+        string memory bio,
+        string[] memory socialLinks
+    ) external {
+        if (userProfiles[msg.sender].userAddress == address(0)) {
+            userCount++;
+            userAddresses.push(msg.sender);
+        }
+
+        userProfiles[msg.sender] = UserProfile({
+            userAddress: msg.sender,
+            username: username,
+            email: email,
+            bio: bio,
+            socialLinks: socialLinks
+        });
+
+        emit UserProfileUpdated(msg.sender, username, email, bio, socialLinks);
+    }
+
+    // Get a specific user profile
+    function getUserProfile(address userAddress) external view returns (UserProfile memory) {
+        require(userProfiles[userAddress].userAddress != address(0), "User does not exist");
+        return userProfiles[userAddress];
+    }
+
+    // Get all users
+    function getAllUsers() external view returns (UserProfile[] memory) {
+        UserProfile[] memory allUsers = new UserProfile[](userCount);
+        for (uint256 i = 0; i < userCount; i++) {
+            allUsers[i] = userProfiles[userAddresses[i]];
+        }
+        return allUsers;
     }
 
     // Function for the campaign admin to claim the funds if the goal is met
