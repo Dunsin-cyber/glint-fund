@@ -12,13 +12,16 @@ import {
 } from "../typechain-types";
 
 describe("CrowdFunding", function () {
-  this.timeout(60000);
+  this.timeout(120000);
 
   let crowdFunding: Crowdfunding;
   let accounts: SignerWithAddress[];
   let deployer: SignerWithAddress;
   let systemContract: SystemContract;
   let owner: Signer, addr1: Signer, addr2: Signer;
+
+  //TODO: create crowdfunding signed contract for two accounts,
+  // one for the campaign owner and one for the donator
 
   beforeEach(async function () {
     accounts = await ethers.getSigners();
@@ -50,6 +53,19 @@ describe("CrowdFunding", function () {
       expect(campaign.amount_required).to.equal(1000);
       // expect(campaign.tags).to.equal(["tag 1", "tag b"]);
       console.log(campaign);
+    });
+  });
+
+  describe("donate", function () {
+    it("Should call the donate function", async function () {
+      const donate = await crowdFunding.donate(1);
+      expect(donate.from).to.equal(deployer.address);
+      // console.log(donate);
+    });
+    it("should donate 100 zeta", async function () {
+      const campaign = await crowdFunding.campaigns(1);
+      const val = await crowdFunding.pledgedAmount(1, campaign.admin);
+      expect(Number(val)).to.equal(0);
     });
   });
 });
