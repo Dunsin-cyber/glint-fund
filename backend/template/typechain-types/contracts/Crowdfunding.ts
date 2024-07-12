@@ -40,6 +40,61 @@ export type ZContextStructOutput = [string, string, BigNumber] & {
   chainID: BigNumber;
 };
 
+export declare namespace Crowdfunding {
+  export type CampaignStruct = {
+    id: PromiseOrValue<BigNumberish>;
+    admin: PromiseOrValue<string>;
+    name: PromiseOrValue<string>;
+    tags: PromiseOrValue<string>[];
+    amount_required: PromiseOrValue<BigNumberish>;
+    donation_complete: PromiseOrValue<boolean>;
+    description: PromiseOrValue<string>;
+    amount_donated: PromiseOrValue<BigNumberish>;
+  };
+
+  export type CampaignStructOutput = [
+    number,
+    string,
+    string,
+    string[],
+    BigNumber,
+    boolean,
+    string,
+    BigNumber
+  ] & {
+    id: number;
+    admin: string;
+    name: string;
+    tags: string[];
+    amount_required: BigNumber;
+    donation_complete: boolean;
+    description: string;
+    amount_donated: BigNumber;
+  };
+
+  export type UserProfileStruct = {
+    userAddress: PromiseOrValue<string>;
+    username: PromiseOrValue<string>;
+    email: PromiseOrValue<string>;
+    bio: PromiseOrValue<string>;
+    socialLinks: PromiseOrValue<string>[];
+  };
+
+  export type UserProfileStructOutput = [
+    string,
+    string,
+    string,
+    string,
+    string[]
+  ] & {
+    userAddress: string;
+    username: string;
+    email: string;
+    bio: string;
+    socialLinks: string[];
+  };
+}
+
 export interface CrowdfundingInterface extends utils.Interface {
   functions: {
     "campaignCount()": FunctionFragment;
@@ -47,9 +102,18 @@ export interface CrowdfundingInterface extends utils.Interface {
     "claim(uint8)": FunctionFragment;
     "create(string,string,uint64,string[])": FunctionFragment;
     "donate(uint8)": FunctionFragment;
+    "getAllCampaigns()": FunctionFragment;
+    "getAllUsers()": FunctionFragment;
+    "getCampaign(uint8)": FunctionFragment;
+    "getUserProfile(address)": FunctionFragment;
     "onCrossChainCall((bytes,address,uint256),address,uint256,bytes)": FunctionFragment;
     "pledgedAmount(uint8,address)": FunctionFragment;
     "systemContract()": FunctionFragment;
+    "updateUserProfile(string,string,string,string[])": FunctionFragment;
+    "userAddresses(uint256)": FunctionFragment;
+    "userCampaigns(address,uint256)": FunctionFragment;
+    "userCount()": FunctionFragment;
+    "userProfiles(address)": FunctionFragment;
   };
 
   getFunction(
@@ -59,9 +123,18 @@ export interface CrowdfundingInterface extends utils.Interface {
       | "claim"
       | "create"
       | "donate"
+      | "getAllCampaigns"
+      | "getAllUsers"
+      | "getCampaign"
+      | "getUserProfile"
       | "onCrossChainCall"
       | "pledgedAmount"
       | "systemContract"
+      | "updateUserProfile"
+      | "userAddresses"
+      | "userCampaigns"
+      | "userCount"
+      | "userProfiles"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -90,6 +163,22 @@ export interface CrowdfundingInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getAllCampaigns",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAllUsers",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getCampaign",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getUserProfile",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "onCrossChainCall",
     values: [
       ZContextStruct,
@@ -106,6 +195,28 @@ export interface CrowdfundingInterface extends utils.Interface {
     functionFragment: "systemContract",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "updateUserProfile",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "userAddresses",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "userCampaigns",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(functionFragment: "userCount", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "userProfiles",
+    values: [PromiseOrValue<string>]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "campaignCount",
@@ -115,6 +226,22 @@ export interface CrowdfundingInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "create", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "donate", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getAllCampaigns",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getAllUsers",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getCampaign",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getUserProfile",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "onCrossChainCall",
     data: BytesLike
@@ -127,6 +254,23 @@ export interface CrowdfundingInterface extends utils.Interface {
     functionFragment: "systemContract",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "updateUserProfile",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "userAddresses",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "userCampaigns",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "userCount", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "userProfiles",
+    data: BytesLike
+  ): Result;
 
   events: {
     "Claim(uint8)": EventFragment;
@@ -134,6 +278,7 @@ export interface CrowdfundingInterface extends utils.Interface {
     "Pledge(uint8,address,uint64)": EventFragment;
     "Refund(uint8,address,uint64)": EventFragment;
     "Unpledge(uint8,address,uint64)": EventFragment;
+    "UserProfileUpdated(address,string,string,string,string[])": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Claim"): EventFragment;
@@ -141,6 +286,7 @@ export interface CrowdfundingInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Pledge"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Refund"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpledge"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "UserProfileUpdated"): EventFragment;
 }
 
 export interface ClaimEventObject {
@@ -200,6 +346,21 @@ export type UnpledgeEvent = TypedEvent<
 >;
 
 export type UnpledgeEventFilter = TypedEventFilter<UnpledgeEvent>;
+
+export interface UserProfileUpdatedEventObject {
+  userAddress: string;
+  username: string;
+  email: string;
+  bio: string;
+  socialLinks: string[];
+}
+export type UserProfileUpdatedEvent = TypedEvent<
+  [string, string, string, string, string[]],
+  UserProfileUpdatedEventObject
+>;
+
+export type UserProfileUpdatedEventFilter =
+  TypedEventFilter<UserProfileUpdatedEvent>;
 
 export interface Crowdfunding extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -263,6 +424,24 @@ export interface Crowdfunding extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    getAllCampaigns(
+      overrides?: CallOverrides
+    ): Promise<[Crowdfunding.CampaignStructOutput[]]>;
+
+    getAllUsers(
+      overrides?: CallOverrides
+    ): Promise<[Crowdfunding.UserProfileStructOutput[]]>;
+
+    getCampaign(
+      campaignId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[Crowdfunding.CampaignStructOutput]>;
+
+    getUserProfile(
+      userAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[Crowdfunding.UserProfileStructOutput]>;
+
     onCrossChainCall(
       context: ZContextStruct,
       zrc20: PromiseOrValue<string>,
@@ -278,6 +457,39 @@ export interface Crowdfunding extends BaseContract {
     ): Promise<[BigNumber]>;
 
     systemContract(overrides?: CallOverrides): Promise<[string]>;
+
+    updateUserProfile(
+      username: PromiseOrValue<string>,
+      email: PromiseOrValue<string>,
+      bio: PromiseOrValue<string>,
+      socialLinks: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    userAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    userCampaigns(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[number]>;
+
+    userCount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    userProfiles(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, string, string] & {
+        userAddress: string;
+        username: string;
+        email: string;
+        bio: string;
+      }
+    >;
   };
 
   campaignCount(overrides?: CallOverrides): Promise<number>;
@@ -315,6 +527,24 @@ export interface Crowdfunding extends BaseContract {
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  getAllCampaigns(
+    overrides?: CallOverrides
+  ): Promise<Crowdfunding.CampaignStructOutput[]>;
+
+  getAllUsers(
+    overrides?: CallOverrides
+  ): Promise<Crowdfunding.UserProfileStructOutput[]>;
+
+  getCampaign(
+    campaignId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<Crowdfunding.CampaignStructOutput>;
+
+  getUserProfile(
+    userAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<Crowdfunding.UserProfileStructOutput>;
+
   onCrossChainCall(
     context: ZContextStruct,
     zrc20: PromiseOrValue<string>,
@@ -330,6 +560,39 @@ export interface Crowdfunding extends BaseContract {
   ): Promise<BigNumber>;
 
   systemContract(overrides?: CallOverrides): Promise<string>;
+
+  updateUserProfile(
+    username: PromiseOrValue<string>,
+    email: PromiseOrValue<string>,
+    bio: PromiseOrValue<string>,
+    socialLinks: PromiseOrValue<string>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  userAddresses(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  userCampaigns(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<number>;
+
+  userCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+  userProfiles(
+    arg0: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, string, string, string] & {
+      userAddress: string;
+      username: string;
+      email: string;
+      bio: string;
+    }
+  >;
 
   callStatic: {
     campaignCount(overrides?: CallOverrides): Promise<number>;
@@ -367,6 +630,24 @@ export interface Crowdfunding extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    getAllCampaigns(
+      overrides?: CallOverrides
+    ): Promise<Crowdfunding.CampaignStructOutput[]>;
+
+    getAllUsers(
+      overrides?: CallOverrides
+    ): Promise<Crowdfunding.UserProfileStructOutput[]>;
+
+    getCampaign(
+      campaignId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<Crowdfunding.CampaignStructOutput>;
+
+    getUserProfile(
+      userAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<Crowdfunding.UserProfileStructOutput>;
+
     onCrossChainCall(
       context: ZContextStruct,
       zrc20: PromiseOrValue<string>,
@@ -382,6 +663,39 @@ export interface Crowdfunding extends BaseContract {
     ): Promise<BigNumber>;
 
     systemContract(overrides?: CallOverrides): Promise<string>;
+
+    updateUserProfile(
+      username: PromiseOrValue<string>,
+      email: PromiseOrValue<string>,
+      bio: PromiseOrValue<string>,
+      socialLinks: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    userAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    userCampaigns(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<number>;
+
+    userCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    userProfiles(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, string, string] & {
+        userAddress: string;
+        username: string;
+        email: string;
+        bio: string;
+      }
+    >;
   };
 
   filters: {
@@ -437,6 +751,21 @@ export interface Crowdfunding extends BaseContract {
       pledger?: PromiseOrValue<string> | null,
       amount?: null
     ): UnpledgeEventFilter;
+
+    "UserProfileUpdated(address,string,string,string,string[])"(
+      userAddress?: PromiseOrValue<string> | null,
+      username?: null,
+      email?: null,
+      bio?: null,
+      socialLinks?: null
+    ): UserProfileUpdatedEventFilter;
+    UserProfileUpdated(
+      userAddress?: PromiseOrValue<string> | null,
+      username?: null,
+      email?: null,
+      bio?: null,
+      socialLinks?: null
+    ): UserProfileUpdatedEventFilter;
   };
 
   estimateGas: {
@@ -465,6 +794,20 @@ export interface Crowdfunding extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    getAllCampaigns(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getAllUsers(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getCampaign(
+      campaignId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getUserProfile(
+      userAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     onCrossChainCall(
       context: ZContextStruct,
       zrc20: PromiseOrValue<string>,
@@ -480,6 +823,32 @@ export interface Crowdfunding extends BaseContract {
     ): Promise<BigNumber>;
 
     systemContract(overrides?: CallOverrides): Promise<BigNumber>;
+
+    updateUserProfile(
+      username: PromiseOrValue<string>,
+      email: PromiseOrValue<string>,
+      bio: PromiseOrValue<string>,
+      socialLinks: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    userAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    userCampaigns(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    userCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    userProfiles(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -508,6 +877,20 @@ export interface Crowdfunding extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    getAllCampaigns(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getAllUsers(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getCampaign(
+      campaignId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getUserProfile(
+      userAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     onCrossChainCall(
       context: ZContextStruct,
       zrc20: PromiseOrValue<string>,
@@ -523,5 +906,31 @@ export interface Crowdfunding extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     systemContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    updateUserProfile(
+      username: PromiseOrValue<string>,
+      email: PromiseOrValue<string>,
+      bio: PromiseOrValue<string>,
+      socialLinks: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    userAddresses(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    userCampaigns(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    userCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    userProfiles(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
   };
 }
