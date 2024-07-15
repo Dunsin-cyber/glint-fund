@@ -28,10 +28,11 @@ function Index({ children }: any) {
           px={"4%"}
         >
           <Text size="24px" fontStyle="bold" fontWeight={600} color="#181425">
-            SOLFUND
+            ZETAFUND
           </Text>
           <Box />
-          <Button maxWidth="200px" fontSize="10px" backgroundColor="#0a0315" />
+          <w3m-button balance="hide" />
+          {/* <Button maxWidth="200px" fontSize="10px" backgroundColor="#0a0315" /> */}
           <Flex
             fontWeight={600}
             py={3}

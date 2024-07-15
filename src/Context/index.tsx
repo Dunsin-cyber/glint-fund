@@ -111,7 +111,8 @@ export const AppProvider = ({ children }: any) => {
     //TODO: fetxh campagn from contract based on this address
     // if campaign does not exist, navigate to onboarding
     if (address != undefined) {
-      navigate("/onboarding");
+      console.log(address);
+      navigate("/profile");
     }
   }, [address]);
 

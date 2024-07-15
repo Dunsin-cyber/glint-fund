@@ -1,22 +1,8 @@
 import React, { useState } from "react";
 import {
   Box,
-  Container,
-  Center,
   Text,
   Flex,
-  Heading,
-  CircularProgress,
-  CircularProgressLabel,
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
   Link,
   Input,
   Button,
@@ -34,6 +20,7 @@ import { CopyIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 import { Transactions } from "../Campaign/Details";
 import SideNav from "../SideNav";
+import { useGetACampaign } from "../../hooks/index";
 
 const AnimatedCopyIcon = motion(CopyIcon);
 
@@ -41,8 +28,11 @@ function Index() {
   const { user } = React.useContext(AppContext);
   const location = useLocation();
   const fullUrl = window.location.origin + "/details/" + user.pda;
+  const { data } = useGetACampaign(1);
+  // console.log("data at 3 and at 6", data);
 
-  const percentDonated = (user?.amountDonated / user?.amountRequired) * 100;
+  // const percentDonated = 23;
+  // (Number(data[6]) / Number(data[3])) * 100;
 
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -93,138 +83,66 @@ function Index() {
       <Text my={4} mx={3} fontWeight={600}>
         Active funds
       </Text>
-      <Box
-        color="black"
-        py={3}
-        mx={8}
-        px={8}
-        borderRadius={"15px"}
-        h={170}
-        bgColor="white"
-        gap={6}
-        transition="transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out"
-        _hover={{
-          transform: "scale(1.05)",
-          boxShadow: "xl",
-        }}
-        cursor="pointer"
-      >
-        <Flex color="#5E5E5E" fontWeight={600} justify="space-between">
-          <Text>{user?.name}</Text>
-          <Text>{Math.floor(percentDonated)}%</Text>
-        </Flex>
-        <Flex color="#353535" mt={1}>
-          0.334 SOL
-        </Flex>
+      {data && (
+        <Box
+          color="black"
+          py={3}
+          mx={8}
+          px={8}
+          borderRadius={"15px"}
+          h={170}
+          bgColor="white"
+          gap={6}
+          transition="transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out"
+          _hover={{
+            transform: "scale(1.05)",
+            boxShadow: "xl",
+          }}
+          cursor="pointer"
+        >
+          <Flex color="#5E5E5E" fontWeight={600} justify="space-between">
+            <Text>{data[2]}</Text>
+            <Text>
+              {Math.floor((Number(data[6]) / Number(data[3])) * 100)}%
+            </Text>
+          </Flex>
+          <Flex color="#353535" mt={1}>
+            0.334 ZETA
+          </Flex>
 
-        <Flex color="#1935C4" fontWeight={600} mt={3} justify="space-between">
-          <Text>${user?.amountDonated}</Text>
-          <Text>${user?.amountRequired}</Text>
-        </Flex>
-        <Progress color="#1935C4" value={Math.floor(percentDonated)} />
-
-        <Link>
-          <Input
-            fontStyle={"italic"}
-            color="#7F7F7F"
-            isReadOnly
-            value={fullUrl}
-            w={"250px"}
+          <Flex color="#1935C4" fontWeight={600} mt={3} justify="space-between">
+            <Text>${Number(data[6])}</Text>
+            <Text>${Number(data[3])}</Text>
+          </Flex>
+          <Progress
+            color="#1935C4"
+            value={Math.floor((Number(data[6]) / Number(data[3])) * 100)}
           />
-          {/* <CopyToClipboard text={fullUrl}>
+
+          <Link>
+            <Input
+              fontStyle={"italic"}
+              color="#7F7F7F"
+              isReadOnly
+              value={fullUrl}
+              w={"250px"}
+            />
+            {/* <CopyToClipboard text={fullUrl}>
             <AnimatedCopyIcon
-              style={{ color: "#7F7F7F" }}
-              boxSize={6}
-              variants={variants}
-              initial="normal"
-              animate={isClicked ? "clicked" : isHovered ? "hovered" : "normal"}
-              onMouseEnter={() => setIsHovered(true)}
+            style={{ color: "#7F7F7F" }}
+            boxSize={6}
+            variants={variants}
+            initial="normal"
+            animate={isClicked ? "clicked" : isHovered ? "hovered" : "normal"}
+            onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               onClick={() => setIsClicked(!isClicked)}
             />
           </CopyToClipboard> */}
-        </Link>
-      </Box>
-    </SideNav>
-    /*     <Container
-      maxW={{ base: "90%", md: "60%" }}
-      h={"100vh"}
-      mt={10}
-      border={"1px solid white"}
-      py={10}
-      px={10}
-    >
-      <Navbar />
-      <Heading>Profile</Heading>
-      <Flex
-        justify={"space-evenly"}
-        align={"center"}
-        flexDirection={{ base: "column", md: "row" }}
-      >
-        <CircularProgress
-          mt={10}
-          value={percentDonated}
-          size="250px"
-          thickness="4px"
-        >
-          <CircularProgressLabel>
-            {Math.floor(percentDonated)}%
-          </CircularProgressLabel>
-        </CircularProgress>
-       
-        <Box>
-          <Flex justify={"center"} align={"center"} my={3} gap={3}>
-            <Text fontWeight="500" fontSize={"36px"}>
-              Name
-            </Text>
-            <Text fontSize={"24px"}> {user?.name}</Text>
-          </Flex>
-          <Flex justify={"center"} align={"center"} my={3} gap={3}>
-            <Text fontWeight="500" fontSize={"36px"}>
-              Request
-            </Text>
-            <Text fontSize={"24px"}> {user.amountRequired}</Text>
-          </Flex>
-          <Flex justify={"center"} align={"center"} my={3} gap={3}>
-            <Text fontWeight="500" fontSize={"36px"}>
-              Donated
-            </Text>
-            <Text fontSize={"24px"}> {user.amountDonated}</Text>
-          </Flex>
-          <Flex mt={10} gap={3} justify={"center"} align={"center"}>
-            <Text fontWeight="500">Donation Link</Text>
-            <Link>
-              <Input
-                fontStyle={"italic"}
-                color="primary.50"
-                isReadOnly
-                value={fullUrl}
-                w={"170px"}
-              />
-              <CopyToClipboard text={fullUrl}>
-                <AnimatedCopyIcon
-                  boxSize={6}
-                  variants={variants}
-                  initial="normal"
-                  animate={
-                    isClicked ? "clicked" : isHovered ? "hovered" : "normal"
-                  }
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                  onClick={() => setIsClicked(!isClicked)}
-                />
-              </CopyToClipboard>
-            </Link>
-          </Flex>
+          </Link>
         </Box>
-      </Flex>
-      <Center flexDirection={"column"}>
-        <Heading my={8} textAlign={"center"}>
-          Transaction History
-        </Heading>
-        <Transactions />
-      </Center>
-    </Container> */
+      )}
+    </SideNav>
   );
 }
 
