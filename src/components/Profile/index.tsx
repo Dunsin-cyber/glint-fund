@@ -20,7 +20,13 @@ import { CopyIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 import { Transactions } from "../Campaign/Details";
 import SideNav from "../SideNav";
-import { useGetACampaign } from "../../hooks/index";
+import {
+  useGetACampaign,
+  useGetAllCampaigns,
+  useGetUserProfile,
+  useGetAllUsers,
+} from "../../hooks/index";
+import { useAccount } from "wagmi";
 
 const AnimatedCopyIcon = motion(CopyIcon);
 
@@ -28,8 +34,18 @@ function Index() {
   const { user } = React.useContext(AppContext);
   const location = useLocation();
   const fullUrl = window.location.origin + "/details/" + user.pda;
+
+  const { address } = useAccount();
   const { data } = useGetACampaign(1);
-  // console.log("data at 3 and at 6", data);
+  console.log("data at 3 and at 6", data);
+
+  const { data: all } = useGetAllCampaigns();
+  const { data: users } = useGetAllUsers();
+  // if (address) {
+  const { data: user_ } = useGetUserProfile(address);
+  console.log("logged in user", user_);
+  // }
+  console.log("all campaigns", all, users);
 
   // const percentDonated = 23;
   // (Number(data[6]) / Number(data[3])) * 100;

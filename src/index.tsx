@@ -35,14 +35,14 @@ root.render(
     <WagmiProvider config={config}>
       <Provider store={store}>
         <Router>
-          <AppProvider>
-            <Toaster />
-            <ChakraProvider theme={theme}>
-              <QueryClientProvider client={queryClient}>
+          <QueryClientProvider client={queryClient}>
+            <AppProvider>
+              <Toaster />
+              <ChakraProvider theme={theme}>
                 <App />
-              </QueryClientProvider>
-            </ChakraProvider>
-          </AppProvider>
+              </ChakraProvider>
+            </AppProvider>
+          </QueryClientProvider>
         </Router>
       </Provider>
     </WagmiProvider>

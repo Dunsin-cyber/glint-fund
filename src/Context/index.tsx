@@ -10,9 +10,7 @@ import {
   clearTransactions,
 } from "../redux/slice/TransactionSlice";
 import { useAccount, useReadContract } from "wagmi";
-import contractAbi from "../contract/CrowdFunding-abi.json";
-
-const contractAddress = "0x310f934b1bc2E40b1b9Acce4895574e79DD716F8";
+import { useGetUserProfile } from "../hooks/index";
 
 type bioT = {
   name: string;
@@ -83,14 +81,9 @@ export const AppProvider = ({ children }: any) => {
   const recipient = useAppSelector((state) => state.recipient);
 
   const { address } = useAccount();
-  const getUser = async () => {
-    // const { data: contractData } = useReadContract({
-    //   address: contractAddress,
-    //   abi: contractAbi.abi,
-    //   functionName: "getProfile", // Replace with the actual function name
-    // });
-    // console.debug("[get user func]-", contractData);
-  };
+  const { data: user_, error, refetch } = useGetUserProfile(address);
+
+  const getUser = () => {};
 
   const smartContract = async () => {};
 
@@ -107,12 +100,13 @@ export const AppProvider = ({ children }: any) => {
   const getTransactions = async () => {};
 
   React.useEffect(() => {
-    getUser();
-    //TODO: fetxh campagn from contract based on this address
-    // if campaign does not exist, navigate to onboarding
-    if (address != undefined) {
-      console.log(address);
+    refetch();
+    console.log(address, error);
+    console.log("USERRRRRRRRRRRRRRRRR", user_);
+    if (user_ && address) {
       navigate("/profile");
+    } else if (!user_ && address) {
+      navigate("/onboarding");
     }
   }, [address]);
 
