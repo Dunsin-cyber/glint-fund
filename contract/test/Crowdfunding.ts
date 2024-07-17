@@ -42,5 +42,9 @@ describe ("Crowdfunding", function() {
         expect(campaign.tags).to.equal(["tag 1", "tag b"]);
     });
 
+    // await crowdfunding.donate(3, {
+    //     value : 2,
+    //     gas : 3000000 //WEI
+    // })
 
 });
