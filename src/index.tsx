@@ -16,14 +16,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import "./utils/web3modal";
 
-// import "@fontsource/montserrat/200.css";
-// import "@fontsource/montserrat/300.css";
-// import "@fontsource/montserrat/400.css";
-// import "@fontsource/montserrat/500.css";
-
-// import "@fontsource/montserrat/600.css";
-// import "@fontsource/montserrat/700.css";
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
