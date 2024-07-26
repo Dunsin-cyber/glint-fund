@@ -62,7 +62,6 @@ export const useGetAllUsers = (): ReturnType => {
     abi: contractAbi.abi,
     address: contractAddress,
     functionName: "getAllUsers",
-    // args: [address],
   });
 
   return {
