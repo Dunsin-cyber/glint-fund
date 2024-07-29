@@ -76,6 +76,10 @@ contract Crowdfunding is zContract, OnlySystem {
         pledgedAmount[id][msg.sender] += uint64(msg.value);
 
         emit Pledge(id, msg.sender, uint64(msg.value));
+
+        if (campaign.amount_donated >= campaign.amount_required) {
+            campaign.donation_complete = true;
+        }
     }
 
     // Get all campaigns

@@ -40,6 +40,52 @@ describe("CrowdFunding", function () {
     console.log("CrowdFunding contract deployed"); // Debugging log
   });
 
+  describe("User Profile Management", function () {
+    
+    it("should create and update a user profile", async function () {
+      const username = "testuser";
+      const email = "testuser@example.com";
+      const bio = "This is a test user";
+      const socialLinks = ["https://twitter.com/testuser"];
+
+      await crowdFunding.connect(user1).updateUserProfile(username, email, bio, socialLinks);
+
+      const userProfile = await crowdFunding.getUserProfile(user1.address);
+      expect(userProfile.username).to.equal(username);
+      expect(userProfile.email).to.equal(email);
+      expect(userProfile.bio).to.equal(bio);
+      expect(userProfile.socialLinks[0]).to.equal(socialLinks[0]);
+    });
+
+    it("should get all users", async function () {
+      const username1 = "user1";
+      const email1 = "user1@example.com";
+      const bio1 = "This is user 1";
+      const socialLinks1 = ["https://twitter.com/user1"];
+
+      const username2 = "user2";
+      const email2 = "user2@example.com";
+      const bio2 = "This is user 2";
+      const socialLinks2 = ["https://twitter.com/user2"];
+
+      await crowdFunding.connect(user1).updateUserProfile(username1, email1, bio1, socialLinks1);
+      await crowdFunding.connect(user2).updateUserProfile(username2, email2, bio2, socialLinks2);
+
+      const allUsers = await crowdFunding.getAllUsers();
+      expect(allUsers.length).to.equal(2);
+
+      expect(allUsers[0].username).to.equal(username1);
+      expect(allUsers[0].email).to.equal(email1);
+      expect(allUsers[0].bio).to.equal(bio1);
+      expect(allUsers[0].socialLinks[0]).to.equal(socialLinks1[0]);
+
+      expect(allUsers[1].username).to.equal(username2);
+      expect(allUsers[1].email).to.equal(email2);
+      expect(allUsers[1].bio).to.equal(bio2);
+      expect(allUsers[1].socialLinks[0]).to.equal(socialLinks2[0]);
+    });
+  });
+
   describe("create", function () {
     it("Should create a company and return the values", async function () {
       await crowdFunding
