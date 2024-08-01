@@ -27,6 +27,7 @@ import {
   useGetAllUsers,
 } from "../../hooks/index";
 import { useAccount } from "wagmi";
+import { useAppSelector } from "../../redux/hook";
 
 const AnimatedCopyIcon = motion(CopyIcon);
 
@@ -36,19 +37,7 @@ function Index() {
   const fullUrl = window.location.origin + "/details/" + user.pda;
 
   const { address } = useAccount();
-  const { data } = useGetACampaign(1);
-  console.log("data at 3 and at 6", data);
-
-  // const { data: all } = useGetAllCampaigns();
-  const { data: users } = useGetAllUsers();
-  // if (address) {
-  const { data: user_ } = useGetUserProfile(address);
-  console.log("logged in user", user_);
-  // }
-  console.log("all users", users);
-
-  // const percentDonated = 23;
-  // (Number(data[6]) / Number(data[3])) * 100;
+  const data = useAppSelector((state) => state.campaign);
 
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -117,9 +106,12 @@ function Index() {
           cursor="pointer"
         >
           <Flex color="#5E5E5E" fontWeight={600} justify="space-between">
-            <Text>{data[2]}</Text>
+            <Text>{data.description}</Text>
             <Text>
-              {Math.floor((Number(data[6]) / Number(data[3])) * 100)}%
+              {Math.floor(
+                (Number(data.amountDonated) / Number(data.amountRequired)) * 100
+              )}
+              %
             </Text>
           </Flex>
           <Flex color="#353535" mt={1}>
@@ -127,12 +119,14 @@ function Index() {
           </Flex>
 
           <Flex color="#1935C4" fontWeight={600} mt={3} justify="space-between">
-            <Text>${Number(data[6])}</Text>
-            <Text>${Number(data[3])}</Text>
+            <Text>${Number(data.amountDonated)}</Text>
+            <Text>${Number(data.amountRequired)}</Text>
           </Flex>
           <Progress
             color="#1935C4"
-            value={Math.floor((Number(data[6]) / Number(data[3])) * 100)}
+            value={Math.floor(
+              (Number(data.amountDonated) / Number(data.amountRequired)) * 100
+            )}
           />
 
           <Link>

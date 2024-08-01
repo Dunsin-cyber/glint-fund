@@ -18,12 +18,15 @@ import { CampaignT } from "../../redux/types";
 import { useAppSelector } from "../../redux/hook";
 
 import HalfSide from "../SideNav/HalfSide";
+import { useGetAllCampaigns } from "../../hooks";
 
 function Campaign() {
   const { getAllCampaigns } = React.useContext(AppContext);
   React.useEffect(() => {
     getAllCampaigns();
   }, []);
+
+  const { data: campaigns_s, isLoading } = useGetAllCampaigns();
 
   const campaigns = useAppSelector((state) => state.campaign);
   return (
@@ -45,18 +48,18 @@ function Campaign() {
         <Flex justify="Center" align="center">
           <Text fontWeight={600}>Campaign</Text>
         </Flex>
-        <Grid
+        {/* <Grid
           templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
           gap={6}
         >
           {campaigns?.map((camp: CampaignT) => (
             <Link
               style={{ textDecoration: "none" }}
-              key={camp.pubKey}
-              to={`/details/${camp.pubKey}`}
+              key={camp.address}
+              to={`/details/${camp.address}`}
             >
               <Card
-                id={camp.pubKey}
+                id={camp.address}
                 amountDonated={camp.amountDonated}
                 amountRequired={camp.amountRequired}
                 name={camp.name}
@@ -64,7 +67,7 @@ function Campaign() {
               />
             </Link>
           ))}
-        </Grid>
+        </Grid> */}
       </Flex>
     </HalfSide>
     // <Container

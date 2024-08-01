@@ -74,20 +74,3 @@ export const useGetAllUsers = (): ReturnType => {
     error,
   };
 };
-
-// export const useCheckIfCampExists = (address: any): ReturnType => {
-//   const { data, error, refetch } = useReadContract({
-//     abi: contractAbi.abi,
-//     address: contractAddress,
-//     functionName: "getAllCampaigns",
-//   });
-
-//   const userExist = data?.filter((campaign: any) => campaign.admin === address);
-
-//   return {
-//     isLoading: !data && !error,
-//     data,
-//     error,
-//     refetch,
-//   };
-// };

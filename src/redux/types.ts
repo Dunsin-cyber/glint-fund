@@ -8,7 +8,7 @@ export type RecipientT = {
 };
 
 export type CampaignT = {
-  pubKey: string;
+  address: string;
   name: string;
   amountDonated: number;
   amountRequired: number;

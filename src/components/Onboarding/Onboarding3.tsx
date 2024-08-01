@@ -50,18 +50,11 @@ function Onboarding3() {
       const data = await writeContractAsync({
         chainId: zetachainAthensTestnet.id,
         address: contractAddress, // change to receipient address
-        functionName: "updateUserProfile",
+        functionName: "create",
         abi: contractAbi.abi,
-        args: [
-          bio.name,
-          "dun@gmail.com",
-          bio.description,
-          Number(amount),
-          ["tags"],
-        ],
+        args: [bio.name, bio.description, Number(amount), tags],
       });
 
-      console.log("created user", data, camp);
       toast("Account Created Successfully");
       navigate("/profile");
       setLoading(false);

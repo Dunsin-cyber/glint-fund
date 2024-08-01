@@ -106,10 +106,19 @@ export const AppProvider = ({ children }: any) => {
       (campaign: any) => campaign.admin === address
     );
     if (typeof userExist === "undefined") return;
-    console.log("userEIST", userExist);
     if (!address) {
       navigate("/");
     } else if (userExist.length > 0) {
+      var user = {
+        address,
+        name: userExist[0].name,
+        amountRequired: userExist[0].amount_required,
+        amountDonated: userExist[0].amount_donated,
+        description: userExist[0].description,
+        donationComplete: userExist[0].donation_complete,
+        id: userExist[0].id,
+      };
+      dispatch(addCampaign(user));
       navigate("/profile");
     } else if (userExist.length === 0) {
       navigate("/onboarding");
