@@ -23,7 +23,7 @@ import { zetachainAthensTestnet } from "viem/chains";
 import { injected } from "wagmi/connectors";
 import { useGetACampaign } from "../../hooks";
 import toast from "react-hot-toast";
-const contractAddress = "0x835F1F5a5578E49b5D163954cCdA60333c3ffC89";
+import { contractAddress } from "../../hooks/index";
 
 function Onboarding3() {
   const { bio, tags, amount, setBio, initUser } = React.useContext(AppContext);
@@ -35,7 +35,7 @@ function Onboarding3() {
   const { connectAsync } = useConnect();
   const [loading, setLoading] = React.useState(false);
 
-  const { data: camp } = useGetACampaign(2);
+  const { data: camp } = useGetACampaign(1);
 
   const handleCreateUser = async () => {
     setLoading(true);
@@ -50,12 +50,18 @@ function Onboarding3() {
       const data = await writeContractAsync({
         chainId: zetachainAthensTestnet.id,
         address: contractAddress, // change to receipient address
-        functionName: "create",
+        functionName: "updateUserProfile",
         abi: contractAbi.abi,
-        args: [bio.name, bio.description, Number(amount), ["tags"]],
+        args: [
+          bio.name,
+          "dun@gmail.com",
+          bio.description,
+          Number(amount),
+          ["tags"],
+        ],
       });
 
-      console.log(data, camp);
+      console.log("created user", data, camp);
       toast("Account Created Successfully");
       navigate("/profile");
       setLoading(false);

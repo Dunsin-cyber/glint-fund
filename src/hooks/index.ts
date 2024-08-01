@@ -1,8 +1,9 @@
-import { useAccount, useReadContract } from "wagmi";
+import { useWriteContract, useReadContract } from "wagmi";
 import contractAbi from "../contract/CrowdFunding-abi.json";
 import type { Address } from "viem";
+import { config } from "../utils/wagmi";
 
-const contractAddress = "0x973C88CFb3b0011c96BA79fCF6489746e621f87e";
+export const contractAddress = "0x8F890851A4a789F273C3dCE9505B1A1B2ddCCDD7";
 
 type ReturnType = {
   isLoading: boolean;
@@ -11,7 +12,7 @@ type ReturnType = {
   refetch?: any;
 };
 
-export const useGetACampaign = (id: number): ReturnType => {
+export const useGetACampaign = (id: any): ReturnType => {
   const { data, error } = useReadContract({
     abi: contractAbi.abi,
     address: contractAddress,
@@ -42,18 +43,19 @@ export const useGetAllCampaigns = (): ReturnType => {
 };
 
 export const useGetUserProfile = (address: Address | undefined): ReturnType => {
-  const { data, error, refetch } = useReadContract({
+  const { error, data } = useReadContract({
     abi: contractAbi.abi,
     address: contractAddress,
     functionName: "getUserProfile",
-    args: ["0x391235BB134D044f0484BAaDfb4c2AA847C4a3EB"],
+    args: [address],
   });
+
+  console.log("getUserProfile function blockresult", data, error);
 
   return {
     isLoading: !data && !error,
     data,
     error,
-    refetch,
   };
 };
 

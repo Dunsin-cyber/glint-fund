@@ -17,7 +17,7 @@ const projectId = "70479ac64b436db61c95139fc7f1ee88";
 const metadata = {
   name: "ZetaFund",
   description:
-    " funding are 100 percent on-chain, secure and tamper-proof on the zetachain blockchain. You can fund with any of the solana tokens but  primarily with solana",
+    "funding are 100 percent on-chain, secure and tamper-proof on the zetachain blockchain. You can fund with any of the solana tokens but  primarily with solana",
   url:
     process.env.NODE_ENV === "production"
       ? "http://localhost:3000"

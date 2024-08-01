@@ -9,8 +9,10 @@ import {
   addTransaction,
   clearTransactions,
 } from "../redux/slice/TransactionSlice";
-import { useAccount, useReadContract } from "wagmi";
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { useGetUserProfile } from "../hooks/index";
+import { config } from "../utils/wagmi";
+import contractAbi from "../contract/CrowdFunding-abi.json";
 
 type bioT = {
   name: string;
@@ -81,7 +83,7 @@ export const AppProvider = ({ children }: any) => {
   const recipient = useAppSelector((state) => state.recipient);
 
   const { address } = useAccount();
-  const { data: user_, error, refetch } = useGetUserProfile(address);
+  // const { data: user_, error } = useGetUserProfile(address);
 
   const getUser = () => {};
 
@@ -99,13 +101,21 @@ export const AppProvider = ({ children }: any) => {
 
   const getTransactions = async () => {};
 
+  // const { writeContractAsync, error: error2 } = useWriteContract({ config });
+
+  // const data =  writeContractAsync({
+  //   abi: contractAbi.abi,
+  //   address: "0x8F890851A4a789F273C3dCE9505B1A1B2ddCCDD7",
+  //   functionName: "getUserProfile",
+  //   args: [address],
+  // });
   React.useEffect(() => {
-    refetch();
-    console.log(address, error);
-    console.log("USERRRRRRRRRRRRRRRRR", user_);
-    if (user_ && address) {
-      navigate("/profile");
-    } else if (!user_ && address) {
+    // console.log("getUserProfile function block result", data, error2);
+
+    // refetch();
+    if (address) {
+      //   navigate("/profile");
+      // } else if (!user_ && address) {
       navigate("/onboarding");
     }
   }, [address]);

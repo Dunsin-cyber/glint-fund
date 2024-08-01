@@ -17,10 +17,28 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../Context";
 import Onboarding2 from "./Onboarding2";
 import Onboarding3 from "./Onboarding3";
+import {
+  useGetAllUsers,
+  useGetUserProfile,
+  useGetACampaign,
+  useGetAllCampaigns,
+} from "../../hooks";
+import { useWriteContract, useAccount } from "wagmi";
+import { config } from "../../utils/wagmi";
+import contractAbi from "../../contract/CrowdFunding-abi.json";
 
 function Onboarding1() {
   const navigate = useNavigate();
   const { step, setStep } = React.useContext(AppContext);
+  const { address } = useAccount();
+
+  const { data } = useGetAllCampaigns();
+  console.log("all camp", data);
+  const { data: profile } = useGetUserProfile(address);
+  console.log("profile", profile);
+  const { data: allUsers } = useGetAllUsers();
+
+  console.log("all users", allUsers);
 
   return (
     <Flex>

@@ -43,9 +43,9 @@ function Index() {
   const { data: users } = useGetAllUsers();
   // if (address) {
   const { data: user_ } = useGetUserProfile(address);
-  // console.log("logged in user", user_);
+  console.log("logged in user", user_);
   // }
-  // console.log("all campaigns", all, users);
+  console.log("all users", users);
 
   // const percentDonated = 23;
   // (Number(data[6]) / Number(data[3])) * 100;
