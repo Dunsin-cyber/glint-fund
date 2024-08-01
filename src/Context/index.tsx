@@ -10,7 +10,7 @@ import {
   clearTransactions,
 } from "../redux/slice/TransactionSlice";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
-import { useGetUserProfile } from "../hooks/index";
+import { useGetAllCampaigns, contractAddress } from "../hooks/index";
 import { config } from "../utils/wagmi";
 import contractAbi from "../contract/CrowdFunding-abi.json";
 
@@ -83,7 +83,7 @@ export const AppProvider = ({ children }: any) => {
   const recipient = useAppSelector((state) => state.recipient);
 
   const { address } = useAccount();
-  // const { data: user_, error } = useGetUserProfile(address);
+  const { data: campaigns, isLoading } = useGetAllCampaigns();
 
   const getUser = () => {};
 
@@ -101,24 +101,20 @@ export const AppProvider = ({ children }: any) => {
 
   const getTransactions = async () => {};
 
-  // const { writeContractAsync, error: error2 } = useWriteContract({ config });
-
-  // const data =  writeContractAsync({
-  //   abi: contractAbi.abi,
-  //   address: "0x8F890851A4a789F273C3dCE9505B1A1B2ddCCDD7",
-  //   functionName: "getUserProfile",
-  //   args: [address],
-  // });
   React.useEffect(() => {
-    // console.log("getUserProfile function block result", data, error2);
-
-    // refetch();
-    if (address) {
-      //   navigate("/profile");
-      // } else if (!user_ && address) {
+    const userExist = campaigns?.filter(
+      (campaign: any) => campaign.admin === address
+    );
+    if (typeof userExist === "undefined") return;
+    console.log("userEIST", userExist);
+    if (!address) {
+      navigate("/");
+    } else if (userExist.length > 0) {
+      navigate("/profile");
+    } else if (userExist.length === 0) {
       navigate("/onboarding");
     }
-  }, [address]);
+  }, [address, isLoading]);
 
   return (
     <AppContext.Provider

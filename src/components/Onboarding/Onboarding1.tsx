@@ -32,13 +32,13 @@ function Onboarding1() {
   const { step, setStep } = React.useContext(AppContext);
   const { address } = useAccount();
 
-  const { data } = useGetAllCampaigns();
-  console.log("all camp", data);
-  const { data: profile } = useGetUserProfile(address);
-  console.log("profile", profile);
-  const { data: allUsers } = useGetAllUsers();
+  // const { data } = useGetAllCampaigns();
+  // console.log("all camp", data);
+  // const { data: profile } = useGetUserProfile(address);
+  // console.log("profile", profile);
+  // const { data: allUsers } = useGetAllUsers();
 
-  console.log("all users", allUsers);
+  // console.log("all users", allUsers);
 
   return (
     <Flex>
@@ -102,7 +102,7 @@ const tagVal = [
 
 function Step1() {
   const { setStep, tags, setTags } = React.useContext(AppContext);
-  console.log(tags);
+  // console.log(tags);
 
   const handleClick = () => {
     setStep(2);
