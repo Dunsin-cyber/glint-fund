@@ -112,8 +112,8 @@ export const AppProvider = ({ children }: any) => {
       var user = {
         address,
         name: userExist[0].name,
-        amountRequired: userExist[0].amount_required,
-        amountDonated: userExist[0].amount_donated,
+        amountRequired: Number(userExist[0].amount_required),
+        amountDonated: Number(userExist[0].amount_donated),
         description: userExist[0].description,
         donationComplete: userExist[0].donation_complete,
         id: userExist[0].id,

@@ -35,7 +35,7 @@ function Index() {
   const { user } = React.useContext(AppContext);
   const location = useLocation();
   const fullUrl = window.location.origin + "/details/" + user.pda;
-
+  const { data: dd } = useGetAllCampaigns();
   const { address } = useAccount();
   const data = useAppSelector((state) => state.campaign);
 

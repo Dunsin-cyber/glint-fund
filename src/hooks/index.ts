@@ -33,8 +33,6 @@ export const useGetAllCampaigns = (): ReturnType => {
     address: contractAddress,
     functionName: "getAllCampaigns",
   });
-  var dd = !data && !error;
-  console.log(dd);
 
   return {
     isLoading: !data && !error,

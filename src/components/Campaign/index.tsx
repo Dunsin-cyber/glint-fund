@@ -26,9 +26,9 @@ function Campaign() {
     getAllCampaigns();
   }, []);
 
-  const { data: campaigns_s, isLoading } = useGetAllCampaigns();
+  const { data: campaigns, isLoading } = useGetAllCampaigns();
 
-  const campaigns = useAppSelector((state) => state.campaign);
+  // const campaigns = useAppSelector((state) => state.campaign);
   return (
     <HalfSide>
       <Flex
@@ -48,11 +48,11 @@ function Campaign() {
         <Flex justify="Center" align="center">
           <Text fontWeight={600}>Campaign</Text>
         </Flex>
-        {/* <Grid
+        <Grid
           templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
           gap={6}
         >
-          {campaigns?.map((camp: CampaignT) => (
+          {campaigns?.map((camp: any) => (
             <Link
               style={{ textDecoration: "none" }}
               key={camp.address}
@@ -60,14 +60,14 @@ function Campaign() {
             >
               <Card
                 id={camp.address}
-                amountDonated={camp.amountDonated}
-                amountRequired={camp.amountRequired}
+                amountDonated={Number(camp.amount_donated)}
+                amountRequired={Number(camp.amount_required)}
                 name={camp.name}
                 description={camp.description}
               />
             </Link>
           ))}
-        </Grid> */}
+        </Grid>
       </Flex>
     </HalfSide>
     // <Container
