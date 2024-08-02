@@ -49,8 +49,6 @@ export const useGetUserProfile = (address: Address | undefined): ReturnType => {
     args: [address],
   });
 
-  console.log("getUserProfile function blockresult", data, error);
-
   return {
     isLoading: !data && !error,
     data,

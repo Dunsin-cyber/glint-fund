@@ -13,6 +13,7 @@ const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const publicKey = null;
+
   React.useMemo(() => {
     if (publicKey === null) {
       if (location.pathname.includes("details/")) {

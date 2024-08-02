@@ -105,7 +105,7 @@ export const AppProvider = ({ children }: any) => {
     const userExist = campaigns?.filter(
       (campaign: any) => campaign.admin === address
     );
-    if (typeof userExist === "undefined") return;
+    if (userExist === undefined) return;
     if (!address) {
       navigate("/");
     } else if (userExist.length > 0) {

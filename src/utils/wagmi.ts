@@ -1,6 +1,6 @@
 import { http, createConfig, createStorage } from "wagmi";
 import { zetachainAthensTestnet } from "wagmi/chains";
-import { injected } from "wagmi/connectors";
+import { metaMask } from "wagmi/connectors";
 
 declare module "wagmi" {
   interface Register {
@@ -10,10 +10,10 @@ declare module "wagmi" {
 
 export const config = createConfig({
   chains: [zetachainAthensTestnet],
-  connectors: [injected()],
+  connectors: [metaMask()],
   transports: {
     [zetachainAthensTestnet.id]: http(),
   },
 });
 
-// const storage = createStorage({ storage: localStorage });
+// const storage = c  reateStorage({ storage: localStorage });

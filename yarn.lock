@@ -4553,6 +4553,11 @@
   dependencies:
     "@zag-js/dom-query" "0.16.0"
 
+"@zetachain/protocol-contracts@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@zetachain/protocol-contracts/-/protocol-contracts-9.0.0.tgz#c20ad5da43f6f3676f31556b303d1cb4ea17357e"
+  integrity sha512-L4A8bddlyhjaBAsIv/x1Bvxc38RJz8U8rbbBtxK5oVyOAd5Zz04ZiT3HqzO4FuKq6RGGM1uiA8jvUfmRkKchXw==
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.6.tgz#41b80f2c871d19686216b82309231cfd3cb3d291"
