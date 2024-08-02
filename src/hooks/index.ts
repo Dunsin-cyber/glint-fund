@@ -19,7 +19,6 @@ export const useGetACampaign = (id: any): ReturnType => {
     functionName: "campaigns",
     args: [id],
   });
-
   return {
     isLoading: !data && !error,
     data,

@@ -21,12 +21,8 @@ import HalfSide from "../SideNav/HalfSide";
 import { useGetAllCampaigns } from "../../hooks";
 
 function Campaign() {
-  const { getAllCampaigns } = React.useContext(AppContext);
-  React.useEffect(() => {
-    getAllCampaigns();
-  }, []);
-
   const { data: campaigns, isLoading } = useGetAllCampaigns();
+  console.log(campaigns);
 
   // const campaigns = useAppSelector((state) => state.campaign);
   return (
@@ -55,11 +51,11 @@ function Campaign() {
           {campaigns?.map((camp: any) => (
             <Link
               style={{ textDecoration: "none" }}
-              key={camp.address}
-              to={`/details/${camp.address}`}
+              key={camp.id}
+              to={`/details/${camp.id}`}
             >
               <Card
-                id={camp.address}
+                id={camp.id}
                 amountDonated={Number(camp.amount_donated)}
                 amountRequired={Number(camp.amount_required)}
                 name={camp.name}
