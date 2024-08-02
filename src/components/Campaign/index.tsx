@@ -56,7 +56,7 @@ function Campaign() {
             >
               <Card
                 id={camp.id}
-                amountDonated={Number(camp.amount_donated)}
+                amountDonated={Number(camp.amount_donated) / 10 ** 18}
                 amountRequired={Number(camp.amount_required)}
                 name={camp.name}
                 description={camp.description}

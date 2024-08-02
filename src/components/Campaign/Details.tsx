@@ -107,7 +107,8 @@ function Details() {
               {/* description */}
               <Text>{data[5]}</Text>
               <Text>
-                {Math.floor((Number(data[6]) / Number(data[3])) * 100)}%
+                {Math.floor(Number(data[6]) / 10 ** 18 / Number(data[3])) * 100}
+                %
               </Text>
             </Flex>
             <Flex color="#353535" mt={1}>
@@ -120,12 +121,14 @@ function Details() {
               mt={3}
               justify="space-between"
             >
-              <Text>${Number(data[6])}</Text>
+              <Text>${Number(data[6]) / 10 ** 18}</Text>
               <Text>${Number(data[3])}</Text>
             </Flex>
             <Progress
               color="#1935C4"
-              value={Math.floor((Number(data[6]) / Number(data[3])) * 100)}
+              value={Math.floor(
+                (Number(data[6]) / 10 ** 18 / Number(data[3])) * 100
+              )}
             />
           </Box>
 
