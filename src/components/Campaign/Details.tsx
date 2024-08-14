@@ -112,7 +112,7 @@ function Details() {
               </Text>
             </Flex>
             <Flex color="#353535" mt={1}>
-              0.76 ZETA
+              0.006 ZETA
             </Flex>
 
             <Flex
