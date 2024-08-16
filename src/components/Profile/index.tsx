@@ -18,6 +18,10 @@ import Navbar from "../Navbar";
 // import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CopyIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
+import { useWriteContract } from "wagmi";
+import contractAbi from "../../contract/CrowdFunding-abi.json";
+import toast from "react-hot-toast";
+
 import { Transactions } from "../Campaign/Details";
 import SideNav from "../SideNav";
 import {
@@ -28,6 +32,7 @@ import {
 } from "../../hooks/index";
 import { useAccount } from "wagmi";
 import { useAppSelector } from "../../redux/hook";
+import { contractAddress } from "../../hooks";
 
 const AnimatedCopyIcon = motion(CopyIcon);
 
@@ -41,11 +46,28 @@ function Index() {
 
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-
+  const { writeContractAsync } = useWriteContract();
   const variants = {
     normal: { scale: 1, color: "#7F7F7F" },
     hovered: { scale: 1.2 },
     clicked: { rotate: 360, scale: 1.2, color: "#341A41" },
+  };
+
+  const handleClaim = async () => {
+    try {
+      const hash = await writeContractAsync({
+        abi: contractAbi.abi,
+        address: contractAddress,
+        functionName: "claim",
+        args: [id],
+      });
+
+      console.log(hash);
+      toast.success("claim Successful");
+    } catch (err: any) {
+      toast.error(err.message);
+      return;
+    }
   };
 
   return (
@@ -115,7 +137,7 @@ function Index() {
             </Text>
           </Flex>
           <Flex color="#353535" mt={1}>
-            0.334 ZETA
+            6.6 ZETA
           </Flex>
 
           <Flex color="#1935C4" fontWeight={600} mt={3} justify="space-between">
@@ -150,6 +172,16 @@ function Index() {
             />
           </CopyToClipboard> */}
           </Link>
+
+          <Button
+            onClick={handleClaim}
+            w={"full"}
+            my={3}
+            color="white"
+            bgColor="purple"
+          >
+            Claim
+          </Button>
         </Box>
       )}
     </SideNav>
