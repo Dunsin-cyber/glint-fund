@@ -23,7 +23,6 @@ function Onboarding2() {
   const handleChangeAmount = async (value: string) => {
     setAmount(+parse(value));
     const val = await getTokenConversion(amount);
-    console.log(val, "val");
     setConverstion(val);
   };
 

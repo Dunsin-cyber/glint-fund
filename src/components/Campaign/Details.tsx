@@ -43,7 +43,7 @@ function Details() {
   const { error, writeContractAsync } = useWriteContract();
   const [value, setValue] = React.useState<number>(0);
   const [zetaVal, setZetaVal] = React.useState(0);
-
+  const [eqSendingZeta, setEqSendingZeta] = React.useState(0);
   // Call the function with the token ID (e.g., "zetacoin" for Zeta)
   getTokenPrice("zetachain");
 
@@ -72,6 +72,12 @@ function Details() {
       toast.error(err.message);
       return;
     }
+  };
+
+  const handleSendVal = async (valueString: string) => {
+    setValue(+parse(valueString));
+    const val = await getTokenConversion(value);
+    setEqSendingZeta(val);
   };
 
   const format = (val: number) => `$` + val;
@@ -140,7 +146,7 @@ function Details() {
               defaultValue={0}
               min={0}
               max={Number(data[3]) - Number(data[6]) / 10 ** 18}
-              onChange={(valueString) => setValue(+parse(valueString))}
+              onChange={(valueString) => handleSendVal(valueString)}
               value={format(value)}
             >
               <NumberInputField my={3} placeholder="how much in dollars?" />
@@ -153,7 +159,7 @@ function Details() {
               bgColor="purple"
               // isDisabled={}
             >
-              Send Zeta to {data[2]}
+              Send {eqSendingZeta} Zeta to {data[2]}
             </Button>
           </Box>
         </Box>
