@@ -70,8 +70,6 @@ function Index() {
     }
   };
 
-  console.log(address);
-
   return (
     <SideNav>
       {/*Selection */}
@@ -183,7 +181,7 @@ function Index() {
         bgColor="purple"
         mx={8}
         px={8}
-        isDisabled={true}
+        isDisabled={!data.donationComplete}
       >
         Claim Donation
       </Button>
