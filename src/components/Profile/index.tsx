@@ -59,7 +59,7 @@ function Index() {
         abi: contractAbi.abi,
         address: contractAddress,
         functionName: "claim",
-        args: [id],
+        args: [1],
       });
 
       console.log(hash);

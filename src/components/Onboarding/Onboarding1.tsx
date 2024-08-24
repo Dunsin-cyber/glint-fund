@@ -129,9 +129,14 @@ function Step1() {
         {/* <Input value={publicKey?.toString()} isReadOnly size="lg" /> */}
       </Flex>
       {/* funding sector */}
-      <Grid
+      <Flex
         pt={8}
-        templateColumns={{ base: "repeat(3, 1fr)", md: "repeat(9, 1fr)" }}
+        flexWrap="wrap"
+        // templateColumns={{
+        //   base: "repeat(3, 1fr)",
+        //   sm: "repeat(4, 1fr)",
+        //   md: "repeat(7, 1fr)",
+        // }}
         gap={6}
       >
         {tags.map((tag: any) => (
@@ -143,18 +148,15 @@ function Step1() {
             variant="solid"
             borderRadius="full"
             key={tag}
+            px={4}
           >
             {tag}
             <TagCloseButton />
           </Tag>
         ))}
-      </Grid>
+      </Flex>
       <Text>what's the funding for?</Text>
-      <Grid
-        pt={8}
-        templateColumns={{ base: "repeat(3, 1fr)", md: "repeat(9, 1fr)" }}
-        gap={6}
-      >
+      <Flex pt={8} gap={6} flexWrap="wrap">
         {tagVal.map((tag) => (
           <Tag
             cursor="pointer"
@@ -171,7 +173,7 @@ function Step1() {
             <TagLabel> {tag}</TagLabel>
           </Tag>
         ))}
-      </Grid>
+      </Flex>
       <Flex justify="flex-end" mt={8}>
         <Button
           py={7}

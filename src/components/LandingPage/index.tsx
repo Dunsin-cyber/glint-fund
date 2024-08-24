@@ -16,6 +16,7 @@ import { AppContext } from "../../Context";
 import toast from "react-hot-toast";
 import Navbar from "../Navbar/Nav2";
 import Footer from "../Footer";
+// import { ReactTyped } from "react-typed";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -56,9 +57,21 @@ function LandingPage() {
           >
             Easily raise funds with Zetachain in 10 seconds
           </Text>
+
           <Text mt={10} textAlign={{ base: "center", md: "left" }}>
             Get crowd funds, manage NFT’s and manage your zetachain balances
           </Text>
+          {/* <ReactTyped
+            strings={[
+              "Get crowd funds",
+              "manage NFT’s and",
+              "manage your zetachain balances",
+            ]}
+            typeSpeed={40}
+            backSpeed={50}
+            attr="placeholder"
+            loop
+          /> */}
           <Hide below="md">
             <Button
               mt={10}
