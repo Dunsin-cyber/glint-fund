@@ -3,22 +3,26 @@ pragma solidity 0.8.7;
 
 // import "@openzeppelin/contracts/access/Ownable.sol";
 import "@zetachain/protocol-contracts/contracts/zevm/SystemContract.sol";
+import "@zetachain/protocol-contracts/contracts/evm/tools/ZetaInteractor.sol";
+
 import "@zetachain/protocol-contracts/contracts/zevm/interfaces/zContract.sol";
 import "@zetachain/toolkit/contracts/OnlySystem.sol";
 
 contract Crowdfunding is zContract, OnlySystem {
-
     SystemContract public systemContract;
 
+    ZetaTokenConsumer private immutable _zetaConsumer;
+    IERC20 internal immutable _zetaToken;
+
     struct Campaign {
-        uint8 id;                // Campaign ID
-        address payable admin;   // Campaign admin
-        string name;             // Campaign name
-        string[] tags;           // Campaign tags
-        uint64 amount_required;  // Amount required for the campaign
-        bool donation_complete;  // Is the donation complete?
-        string description;      // Campaign description
-        uint64 amount_donated;   // Amount donated so far
+        uint8 id; // Campaign ID
+        address payable admin; // Campaign admin
+        string name; // Campaign name
+        string[] tags; // Campaign tags
+        uint64 amount_required; // Amount required for the campaign
+        bool donation_complete; // Is the donation complete?
+        string description; // Campaign description
+        uint64 amount_donated; // Amount donated so far
     }
 
     struct UserProfile {
@@ -37,20 +41,36 @@ contract Crowdfunding is zContract, OnlySystem {
     mapping(address => UserProfile) public userProfiles;
     address[] public userAddresses;
 
-
-     event Launch(uint8 id, address indexed admin, string name, string description, uint64 amount_required, string[] tags);
+    event Launch(
+        uint8 id,
+        address indexed admin,
+        string name,
+        string description,
+        uint64 amount_required,
+        string[] tags
+    );
     event Pledge(uint8 indexed id, address indexed pledger, uint64 amount);
     event Unpledge(uint8 indexed id, address indexed pledger, uint64 amount);
     event Claim(uint8 id);
     event Refund(uint8 id, address indexed pledger, uint64 amount);
-    event UserProfileUpdated(address indexed userAddress, string username, string email, string bio, string[] socialLinks);
+    event UserProfileUpdated(
+        address indexed userAddress,
+        string username,
+        string email,
+        string bio,
+        string[] socialLinks
+    );
 
     constructor(address systemContractAddress) {
         systemContract = SystemContract(systemContractAddress);
     }
-    
 
-    function create(string memory name, string memory description, uint64 amount_required, string[] memory tags) external {
+    function create(
+        string memory name,
+        string memory description,
+        uint64 amount_required,
+        string[] memory tags
+    ) external {
         campaignCount++;
         campaigns[campaignCount] = Campaign({
             id: campaignCount,
@@ -64,7 +84,14 @@ contract Crowdfunding is zContract, OnlySystem {
         });
         userCampaigns[msg.sender].push(campaignCount);
 
-        emit Launch(campaignCount, msg.sender, name, description, amount_required, tags);
+        emit Launch(
+            campaignCount,
+            msg.sender,
+            name,
+            description,
+            amount_required,
+            tags
+        );
     }
 
     // Function to pledge funds to a campaign
@@ -92,8 +119,13 @@ contract Crowdfunding is zContract, OnlySystem {
     }
 
     // Get a specific campaign
-    function getCampaign(uint8 campaignId) external view returns (Campaign memory) {
-        require(campaignId > 0 && campaignId <= campaignCount, "Campaign does not exist");
+    function getCampaign(
+        uint8 campaignId
+    ) external view returns (Campaign memory) {
+        require(
+            campaignId > 0 && campaignId <= campaignCount,
+            "Campaign does not exist"
+        );
         return campaigns[campaignId];
     }
 
@@ -109,7 +141,7 @@ contract Crowdfunding is zContract, OnlySystem {
     //     return userCampaignsList;
     // }
 
-     // Manage user profile
+    // Manage user profile
     function updateUserProfile(
         string memory username,
         string memory email,
@@ -133,8 +165,13 @@ contract Crowdfunding is zContract, OnlySystem {
     }
 
     // Get a specific user profile
-    function getUserProfile(address userAddress) external view returns (UserProfile memory) {
-        require(userProfiles[userAddress].userAddress != address(0), "User does not exist");
+    function getUserProfile(
+        address userAddress
+    ) external view returns (UserProfile memory) {
+        require(
+            userProfiles[userAddress].userAddress != address(0),
+            "User does not exist"
+        );
         return userProfiles[userAddress];
     }
 
@@ -151,7 +188,10 @@ contract Crowdfunding is zContract, OnlySystem {
     function claim(uint8 id) external {
         Campaign storage campaign = campaigns[id];
         require(msg.sender == campaign.admin, "not admin");
-        require(campaign.amount_donated >= campaign.amount_required, "donated < required");
+        require(
+            campaign.amount_donated >= campaign.amount_required,
+            "donated < required"
+        );
         require(!campaign.donation_complete, "donation complete");
 
         campaign.donation_complete = true;
@@ -159,7 +199,6 @@ contract Crowdfunding is zContract, OnlySystem {
 
         emit Claim(id);
     }
-
 
     function onCrossChainCall(
         zContext calldata context,
@@ -169,4 +208,432 @@ contract Crowdfunding is zContract, OnlySystem {
     ) external virtual override onlySystem(systemContract) {
         // TODO: implement the logic
     }
+
+    function createCrossChainCampaign(
+        uint256 destinationChainId,
+        string memory name,
+        string memory description,
+        uint256 amountRequired
+    ) public {
+        // Encode the campaign details
+        bytes memory message = abi.encode(name, description, amountRequired);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{
+            value: msg.value
+        }(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+
+        // Send the message to the destination chain
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function donateCrossChain(
+        uint256 destinationChainId,
+        uint256 campaignId,
+        uint256 amount
+    ) public payable {
+        bytes memory message = abi.encode(campaignId, amount);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function getCampaignCrossChain(
+        uint256 destinationChainId,
+        uint256 campaignId
+    ) public {
+        bytes memory message = abi.encode(campaignId);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function syncUserProfileCrossChain(
+        uint256 destinationChainId,
+        string memory username,
+        string memory email,
+        string memory bio,
+        string[] memory socialLinks
+    ) public {
+        bytes memory message = abi.encode(username, email, bio, socialLinks);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function updateCampaignCrossChain(
+        uint256 destinationChainId,
+        uint256 campaignId,
+        string memory name,
+        string memory description,
+        uint256 amountRequired
+    ) public {
+        bytes memory message = abi.encode(campaignId, name, description, amountRequired);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function deleteCampaignCrossChain(
+        uint256 destinationChainId,
+        uint256 campaignId
+    ) public {
+        bytes memory message = abi.encode(campaignId);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function claimCrossChain(
+        uint256 destinationChainId,
+        uint256 campaignId
+    ) public {
+        bytes memory message = abi.encode(campaignId);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function transferFundsCrossChain(
+        uint256 destinationChainId,
+        address to,
+        uint256 amount
+    ) public payable {
+        bytes memory message = abi.encode(to, amount);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    // SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
+import "@openzeppelin/contracts/interfaces/IERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@zetachain/protocol-contracts/contracts/evm/tools/ZetaInteractor.sol";
+import "@zetachain/protocol-contracts/contracts/evm/interfaces/ZetaInterfaces.sol";
+import "@zetachain/protocol-contracts/contracts/evm/ZetaConnector.base.sol";
+
+contract CrowdFunding is ZetaInteractor, Ownable {
+    ZetaTokenConsumer private immutable _zetaConsumer;
+    IERC20 internal immutable _zetaToken;
+    
+    struct Campaign {
+        uint8 id;
+        address admin;
+        string name;
+        string description;
+        uint256 amountRequired;
+        uint256 amountDonated;
+        bool donationComplete;
+        string[] tags;
+    }
+    
+    struct UserProfile {
+        string username;
+        string email;
+        string bio;
+        string[] socialLinks;
+    }
+
+    mapping(address => UserProfile) public userProfiles;
+    mapping(uint256 => Campaign) public campaigns;
+    uint256 public campaignCount;
+
+    constructor(address connectorAddress, address zetaConsumerAddress) ZetaInteractor(connectorAddress) {
+        _zetaToken = IERC20(ZetaConnectorBase(connectorAddress).zetaToken());
+        _zetaConsumer = ZetaTokenConsumer(zetaConsumerAddress);
+    }
+
+    function createCampaign(
+        string memory name,
+        string memory description,
+        uint256 amountRequired,
+        string[] memory tags
+    ) public {
+        campaigns[campaignCount] = Campaign({
+            id: uint8(campaignCount),
+            admin: msg.sender,
+            name: name,
+            description: description,
+            amountRequired: amountRequired,
+            amountDonated: 0,
+            donationComplete: false,
+            tags: tags
+        });
+        campaignCount++;
+    }
+
+    function createCrossChainCampaign(
+        uint256 destinationChainId,
+        string memory name,
+        string memory description,
+        uint256 amountRequired,
+        string[] memory tags
+    ) public payable {
+        bytes memory message = abi.encode(name, description, amountRequired, tags);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function pledgeCrossChain(
+        uint256 destinationChainId,
+        uint256 campaignId,
+        uint256 amount
+    ) public payable {
+        bytes memory message = abi.encode(campaignId, amount);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function claimFundsCrossChain(
+        uint256 destinationChainId,
+        uint256 campaignId
+    ) public {
+        bytes memory message = abi.encode(campaignId);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function syncUserProfileCrossChain(
+        uint256 destinationChainId,
+        string memory username,
+        string memory email,
+        string memory bio,
+        string[] memory socialLinks
+    ) public {
+        bytes memory message = abi.encode(username, email, bio, socialLinks);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function updateCampaignCrossChain(
+        uint256 destinationChainId,
+        uint256 campaignId,
+        string memory name,
+        string memory description,
+        uint256 amountRequired
+    ) public {
+        bytes memory message = abi.encode(campaignId, name, description, amountRequired);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function deleteCampaignCrossChain(
+        uint256 destinationChainId,
+        uint256 campaignId
+    ) public {
+        bytes memory message = abi.encode(campaignId);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function getCampaignCrossChain(
+        uint256 destinationChainId,
+        uint256 campaignId
+    ) public {
+        bytes memory message = abi.encode(campaignId);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function transferFundsCrossChain(
+        uint256 destinationChainId,
+        address to,
+        uint256 amount
+    ) public payable {
+        bytes memory message = abi.encode(to, amount);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function getCampaignAnalyticsCrossChain(
+        uint256 destinationChainId,
+        uint256 campaignId
+    ) public {
+        bytes memory message = abi.encode(campaignId);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
+    function getUserStatisticsCrossChain(
+        uint256 destinationChainId,
+        address user
+    ) public {
+        bytes memory message = abi.encode(user);
+        uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{value: msg.value}(address(this), 0);
+        _zetaToken.approve(address(connector), zetaValueAndGas);
+        connector.send(
+            ZetaInterfaces.SendInput({
+                destinationChainId: destinationChainId,
+                destinationAddress: interactorsByChainId[destinationChainId],
+                destinationGasLimit: 300000,
+                message: message,
+                zetaValueAndGas: zetaValueAndGas,
+                zetaParams: abi.encode("")
+            })
+        );
+    }
+
 }

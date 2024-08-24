@@ -102,6 +102,83 @@ describe("CrowdFunding", function () {
     });
   });
 
+  describe("Campaign Management", function () {
+    it("should create and retrieve campaigns", async function () {
+      const name = "Campaign 1";
+      const description = "This is the first campaign";
+      const amountRequired = ethers.utils.parseEther("10");
+
+      // Launch a new campaign
+      await crowdFunding.connect(user1).create(name, description, amountRequired, ["tag 1", "tag b"]);
+
+      // Retrieve and validate all campaigns
+      const allCampaigns = await crowdFunding.getAllCampaigns();
+      expect(allCampaigns.length).to.equal(1);
+
+      expect(allCampaigns[0].name).to.equal(name);
+      expect(allCampaigns[0].description).to.equal(description);
+      expect(allCampaigns[0].amount_required.toString()).to.equal(amountRequired.toString());
+      expect(allCampaigns[0].admin).to.equal(user1.address);
+    });
+
+    it("should allow users to pledge funds to a campaign", async function () {
+      const name = "Campaign 1";
+      const description = "This is the first campaign";
+      const amountRequired = ethers.utils.parseEther("10");
+
+      // Launch a new campaign
+      await crowdFunding.connect(user1).create(name, description, amountRequired, ["tag 1", "tag b"]);
+
+      // Pledge 5 ETH to the campaign
+      await crowdFunding.connect(user2).donate(1, { value: ethers.utils.parseEther("5") });
+
+      // Validate the campaign after the first donate
+      let campaign = await crowdFunding.campaigns(1);
+      expect(campaign.amount_donated.toString()).to.equal(ethers.utils.parseEther("5").toString());
+      expect(campaign.donation_complete).to.be.false;
+
+      // donate another 5 ETH to the campaign to complete it
+      await crowdFunding.connect(user2).donate(1, { value: ethers.utils.parseEther("5") });
+
+      // Validate the campaign after the second donate
+      campaign = await crowdFunding.campaigns(1);
+      expect(campaign.amount_donated.toString()).to.equal(ethers.utils.parseEther("10").toString());
+      expect(campaign.donation_complete).to.be.true;
+    });
+
+    it("should allow campaign admin to claim funds after goal is reached", async function () {
+      const name = "Campaign 1";
+      const description = "This is the first campaign";
+      const amountRequired = ethers.utils.parseEther("10");
+
+      // Launch a new campaign
+      await crowdFunding.connect(user1).create(name, description, amountRequired, ["tag 1", "tag b"]);
+
+      // donate 10 ETH to the campaign to complete it
+      await crowdFunding.connect(user2).donate(1, { value: ethers.utils.parseEther("10") });
+
+      // Record initial balance of the campaign admin
+      const initialBalance = await ethers.provider.getBalance(user1.address);
+
+      // Claim funds by the campaign admin
+      await crowdFunding.connect(user1).claim(1);
+
+      // Validate the final balance of the campaign admin
+      const finalBalance = await ethers.provider.getBalance(user1.address);
+      expect(finalBalance.sub(initialBalance).toString()).to.equal(ethers.utils.parseEther("10").toString());
+    });
+  });
+
+  // describe("get all campaign", function () {
+  //   it("SHould return the list of campaigns created", async function () {
+  //     await crowdFunding
+  //     .connect(user1)
+  //     .getAllCampaigns();
+
+  //     const allCampaigns = await crowdFunding.(user1)
+  //   })
+  // })
+
   describe("donate", function () {
     it("Should call the donate function", async function () {
       const donate = await crowdFunding.connect(user2).donate(1);
