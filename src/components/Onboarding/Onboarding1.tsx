@@ -142,9 +142,9 @@ function Step1() {
         {tags.map((tag: any) => (
           <Tag
             cursor="pointer"
-            py={4}
+            py={3}
             pl={4}
-            size="xl"
+            size={{ base: "sm", md: "xl" }}
             variant="solid"
             borderRadius="full"
             key={tag}
