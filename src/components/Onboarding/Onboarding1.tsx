@@ -65,7 +65,7 @@ function Onboarding1() {
         pl={{ md: "150px" }}
         pt={{ base: "5vh", md: "30vh" }}
         color="black"
-        w={{ base: "90%", md: "70%" }}
+        w={{ base: "100%", md: "70%" }}
         bgColor="primary.100"
       >
         <ArrowBackIcon
