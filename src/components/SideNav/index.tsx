@@ -43,7 +43,7 @@ function Index({ children }: any) {
             gap={1}
             cursor="pointer"
             onClick={() => {
-              navigate("/profile");
+              navigate("/campaign");
             }}
             borderRadius="md"
             transition="background-color 0.2s ease, transform 0.2s ease"
@@ -54,7 +54,7 @@ function Index({ children }: any) {
             _focus={{ boxShadow: "outline" }}
           >
             <FiHome />
-            <Text>Dashboard</Text>
+            <Text>Home</Text>
           </Flex>
           <Flex
             fontWeight={600}
@@ -64,7 +64,7 @@ function Index({ children }: any) {
             gap={1}
             cursor="pointer"
             onClick={() => {
-              navigate("/campaign");
+              navigate("/profile");
             }}
             borderRadius="md"
             py={3}
@@ -77,7 +77,7 @@ function Index({ children }: any) {
             _focus={{ boxShadow: "outline" }}
           >
             <GoPeople color="black" />
-            <Text>CrowdFund</Text>
+            <Text>Profile</Text>
           </Flex>
           <Flex
             fontWeight={600}

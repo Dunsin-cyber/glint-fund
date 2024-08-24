@@ -11,12 +11,22 @@ import {
   NumberInputField,
 } from "@chakra-ui/react";
 import { AppContext } from "../../Context";
+import { getTokenConversion } from "../../utils/tokenPrice";
 
 function Onboarding2() {
   const { setStep, amount, setAmount } = React.useContext(AppContext);
   console.log(amount);
-  const parse = (val: string) => val.replace(/^\$/, "");
   const format = (val: number) => `$` + val;
+  const parse = (val: string) => val.replace(/^\$/, "");
+  const [converstion, setConverstion] = React.useState(0);
+
+  const handleChangeAmount = async (value: string) => {
+    setAmount(+parse(value));
+    const val = await getTokenConversion(amount);
+    console.log(val, "val");
+    setConverstion(val);
+  };
+
   return (
     <Box>
       <Box>
@@ -41,7 +51,7 @@ function Onboarding2() {
           </InputLeftElement>
           <NumberInput
             value={format(amount)}
-            onChange={(value: string) => setAmount(parse(value))}
+            onChange={(value: string) => handleChangeAmount(value)}
             defaultValue={0}
             clampValueOnBlur={false}
           >
@@ -53,6 +63,7 @@ function Onboarding2() {
           size="lg"
           readOnly
           isDisabled
+          value={converstion + " zeta"}
         />
       </Flex>
       {/* funding sector */}

@@ -47,11 +47,11 @@ function Index({ children }: any) {
             }}
             _focus={{ boxShadow: "outline" }}
             onClick={() => {
-              navigate("/profile");
+              navigate("/campaign");
             }}
           >
             <FiHome />
-            <Text>Dashboard</Text>
+            <Text>Home</Text>
           </Flex>
           <Flex
             fontWeight={600}
@@ -70,11 +70,11 @@ function Index({ children }: any) {
             }}
             _focus={{ boxShadow: "outline" }}
             onClick={() => {
-              navigate("/campaign");
+              navigate("/profile");
             }}
           >
             <GoPeople color="black" />
-            <Text>CrowdFund</Text>
+            <Text>Profile</Text>
           </Flex>
           <Flex
             fontWeight={600}

@@ -8,12 +8,15 @@ import {
   Thead,
   Tbody,
   Tfoot,
+  Input,
   Tr,
   Th,
   Td,
   TableCaption,
   TableContainer,
   Button,
+  NumberInput,
+  NumberInputField,
 } from "@chakra-ui/react";
 import { Navigate, Router, useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../redux/hook";
@@ -28,7 +31,9 @@ import toast from "react-hot-toast";
 // import { zetachainAthensTestnet } from "viem/chains";
 import contractAbi from "../../contract/CrowdFunding-abi.json";
 import { parseEther } from "viem";
+import { getTokenPrice } from "../../utils/tokenPrice";
 // import { config } from "../../utils/wagmi";
+import { getTokenConversion } from "../../utils/tokenPrice";
 
 function Details() {
   const { id }: any = useParams();
@@ -36,7 +41,19 @@ function Details() {
   const navigate = useNavigate();
   const { address } = useAccount();
   const { error, writeContractAsync } = useWriteContract();
+  const [value, setValue] = React.useState<number>(0);
+  const [zetaVal, setZetaVal] = React.useState(0);
 
+  // Call the function with the token ID (e.g., "zetacoin" for Zeta)
+  getTokenPrice("zetachain");
+
+  const convert = async () => {
+    var val = await getTokenConversion(Number(data[3]));
+    setZetaVal(val);
+  };
+  if (data) {
+    convert();
+  }
   // const zetaAddress = getAddress("zrc20", "zeta_testnet");
 
   const handleDonate = async () => {
@@ -57,22 +74,8 @@ function Details() {
     }
   };
 
-  const handleClaim = async () => {
-    try {
-      const hash = await writeContractAsync({
-        abi: contractAbi.abi,
-        address: contractAddress,
-        functionName: "claim",
-        args: [id],
-      });
-
-      console.log(hash);
-      toast.success("claim Successful");
-    } catch (err: any) {
-      toast.error(err.message);
-      return;
-    }
-  };
+  const format = (val: number) => `$` + val;
+  const parse = (val: string) => val.replace(/^\$/, "");
 
   return (
     <SideNav>
@@ -112,7 +115,7 @@ function Details() {
               </Text>
             </Flex>
             <Flex color="#353535" mt={1}>
-              0.556 ZETA
+              {zetaVal} ZETA
             </Flex>
 
             <Flex
@@ -132,24 +135,27 @@ function Details() {
             />
           </Box>
 
-          <Button
-            onClick={handleDonate}
-            w={"full"}
-            my={3}
-            color="white"
-            bgColor="purple"
-          >
-            Send Zeta to {data[2]}
-          </Button>
-          <Button
-            onClick={handleClaim}
-            w={"full"}
-            my={3}
-            color="white"
-            bgColor="purple"
-          >
-            Claim
-          </Button>
+          <Box mx={8}>
+            <NumberInput
+              defaultValue={0}
+              min={0}
+              max={Number(data[3]) - Number(data[6]) / 10 ** 18}
+              onChange={(valueString) => setValue(+parse(valueString))}
+              value={format(value)}
+            >
+              <NumberInputField my={3} placeholder="how much in dollars?" />
+            </NumberInput>
+            <Button
+              onClick={handleDonate}
+              w={"full"}
+              my={3}
+              color="white"
+              bgColor="purple"
+              // isDisabled={}
+            >
+              Send Zeta to {data[2]}
+            </Button>
+          </Box>
         </Box>
       )}
     </SideNav>

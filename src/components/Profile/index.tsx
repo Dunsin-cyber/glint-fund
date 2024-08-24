@@ -70,6 +70,8 @@ function Index() {
     }
   };
 
+  console.log(address);
+
   return (
     <SideNav>
       {/*Selection */}
@@ -172,18 +174,19 @@ function Index() {
             />
           </CopyToClipboard> */}
           </Link>
-
-          <Button
-            onClick={handleClaim}
-            w={"full"}
-            my={3}
-            color="white"
-            bgColor="purple"
-          >
-            Claim
-          </Button>
         </Box>
       )}
+      <Button
+        onClick={handleClaim}
+        my={3}
+        color="white"
+        bgColor="purple"
+        mx={8}
+        px={8}
+        isDisabled={true}
+      >
+        Claim Donation
+      </Button>
     </SideNav>
   );
 }
