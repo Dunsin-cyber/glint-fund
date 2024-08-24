@@ -73,8 +73,8 @@ function Onboarding3() {
         </Text>
         <Text pt={4} fontSize="16px">
           funding are 100 percent on-chain, secure and tamper-proof on the
-          solana blockchain. You can fund with any of the solana tokens but
-          primarily with solana
+          zetachain blockchain. You can fund with any of the zetachain tokens
+          but primarily with zetachain
         </Text>
       </Box>
       {/* put your details */}
@@ -100,7 +100,7 @@ function Onboarding3() {
               description: e.target.value,
             })
           }
-          placeholder="write a short reason for your solana funding"
+          placeholder="write a short reason for your zetachain funding"
         />
       </Flex>
 

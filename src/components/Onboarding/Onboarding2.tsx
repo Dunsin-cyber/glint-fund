@@ -48,7 +48,12 @@ function Onboarding2() {
             <NumberInputField />
           </NumberInput>
         </InputGroup>
-        <Input placeholder="equivalen zeta presently" size="lg" />
+        <Input
+          placeholder="equivalent zeta presently"
+          size="lg"
+          readOnly
+          isDisabled
+        />
       </Flex>
       {/* funding sector */}
 
