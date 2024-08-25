@@ -66,7 +66,7 @@ function Index() {
       toast.success("claim Successful");
     } catch (err: any) {
       toast.error(err.message);
-      console.log(err.message);
+      console.log("[Error message from handleClaims-]", err.message);
       return;
     }
   };
