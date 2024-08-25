@@ -62,7 +62,7 @@ function Details() {
         abi: contractAbi.abi,
         address: contractAddress,
         functionName: "donate",
-        value: parseEther("0.9"),
+        value: parseEther("3"),
         args: [id],
       });
 

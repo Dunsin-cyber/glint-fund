@@ -59,13 +59,14 @@ function Index() {
         abi: contractAbi.abi,
         address: contractAddress,
         functionName: "claim",
-        args: [1],
+        args: [data.id],
       });
 
       console.log(hash);
       toast.success("claim Successful");
     } catch (err: any) {
       toast.error(err.message);
+      console.log(err.message);
       return;
     }
   };
