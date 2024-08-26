@@ -18,6 +18,7 @@ import Navbar from "../Navbar/Nav2";
 import Footer from "../Footer";
 import { BackgroundBeams } from "../../animations/background-beams";
 import { TypewriterEffectSmooth } from "../../animations/typewriter-effect";
+import { FlipWords } from "../../animations/flip-words";
 import Lottie from "lottie-react";
 import ICON from "../../animations/GIF/home-icon.json";
 
@@ -46,7 +47,7 @@ const words = [
 
 function LandingPage() {
   const navigate = useNavigate();
-
+  const words_ = ["crowd funds", "manage NFT’s", "manage your balances"];
   const handleClick = async () => {
     navigate("profile");
   };
@@ -77,13 +78,15 @@ function LandingPage() {
           flexWrap="wrap"
         >
           <TypewriterEffectSmooth words={words} />
-          <Text mt={10} textAlign={{ base: "center", md: "left" }}>
-            Get crowd funds, manage NFT’s and manage your zetachain balances
-          </Text>
+          <div className="text-2xl  font-montserrat font-normal text-neutral-600 dark:text-neutral-400">
+            Get
+            <FlipWords words={words_} /> on Zetachain{" "}
+          </div>
 
           <Hide below="md">
             <Button
               mt={10}
+              cursor="pointer"
               borderRadius={"10px"}
               borderColor="purple"
               variant={"purple"}

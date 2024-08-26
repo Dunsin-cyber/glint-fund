@@ -10,6 +10,20 @@ module.exports = {
     extend: {},
   },
   plugins: [addVariablesForColors],
+
+  animation: {
+    shimmer: "shimmer 2s linear infinite",
+  },
+  keyframes: {
+    shimmer: {
+      from: {
+        backgroundPosition: "0 0",
+      },
+      to: {
+        backgroundPosition: "-200% 0",
+      },
+    },
+  },
 };
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).

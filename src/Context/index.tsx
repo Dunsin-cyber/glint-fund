@@ -119,8 +119,7 @@ export const AppProvider = ({ children }: any) => {
         id: userExist[0].id,
       };
       dispatch(addCampaign(user));
-      navigate("/");
-      // navigate("/profile");
+      navigate("/profile");
     } else if (userExist.length === 0) {
       navigate("/onboarding");
     }
