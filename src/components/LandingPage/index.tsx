@@ -16,6 +16,8 @@ import { AppContext } from "../../Context";
 import toast from "react-hot-toast";
 import Navbar from "../Navbar/Nav2";
 import Footer from "../Footer";
+import { BackgroundBeamsWithCollision } from "../../animations/background";
+import { BackgroundBeams } from "../../animations/background-beams";
 // import { ReactTyped } from "react-typed";
 
 function LandingPage() {
@@ -26,6 +28,7 @@ function LandingPage() {
   };
 
   return (
+    // <BackgroundBeamsWithCollision>
     <Box
       h="100vh"
       display="flex"
@@ -125,7 +128,9 @@ function LandingPage() {
       <Box h="10vh">
         <Footer />
       </Box>
+      <BackgroundBeams />
     </Box>
+    // </BackgroundBeamsWithCollision>
   );
 }
 

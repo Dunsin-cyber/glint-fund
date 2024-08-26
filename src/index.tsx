@@ -15,6 +15,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // import "@fontsource/montserrat/400-italic.css"; // Specify weight and style
 import { Toaster } from "react-hot-toast";
 import "./utils/web3modal";
+import "tailwindcss/tailwind.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
