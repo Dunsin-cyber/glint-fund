@@ -15,6 +15,7 @@ import Navbar from "../Navbar/Nav2";
 import Footer from "../Footer";
 import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { BackgroundBeams } from "../../animations/background-beams";
 
 function ConnectWallet() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ function ConnectWallet() {
 
   return (
     <Box h="100vh">
+      <BackgroundBeams />
       <Box h={"85vh"}>
         <Navbar />
         <Container mt={"30vh"}>
