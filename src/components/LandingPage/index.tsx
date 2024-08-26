@@ -60,6 +60,7 @@ function LandingPage() {
       alignItems="space-evenly"
       flexDirection={"column"}
     >
+      <BackgroundBeams />
       <Navbar />
       <Flex
         mt={{ base: "5%", md: "1%" }}
@@ -74,16 +75,26 @@ function LandingPage() {
           mx={"8%"}
           flexDirection="column"
           justify={{ base: "center" }}
-          w={{ md: "40%" }}
+          w={{ base: "100%", md: "40%" }}
           flexWrap="wrap"
         >
-          <TypewriterEffectSmooth words={words} />
-          <div className="text-2xl  font-montserrat font-normal text-neutral-600 dark:text-neutral-400">
+          <div>
+            <TypewriterEffectSmooth words={words} className="text-4xl" />
+          </div>
+          <div className="text-md  font-montserrat font-normal text-neutral-600 dark:text-neutral-400">
             Get
             <FlipWords words={words_} /> on Zetachain{" "}
           </div>
 
           <Hide below="md">
+            <button
+              className="px-3 bg-red-400 text-white cursor-pointer"
+              onClick={() => {
+                navigate("/connect-wallet");
+              }}
+            >
+              Get Started
+            </button>
             <Button
               mt={10}
               cursor="pointer"
@@ -109,7 +120,7 @@ function LandingPage() {
           flexDir="column"
           justify={{ base: "center", md: "flex-end" }}
           align={{ base: "center", md: "flex-end" }}
-          w={{ base: "100%", md: "40%" }}
+          w={{ base: "90%", md: "40%" }}
           mt={{ base: 8, md: 0 }}
         >
           {/* <Image
@@ -138,7 +149,6 @@ function LandingPage() {
       <Box h="10vh">
         <Footer />
       </Box>
-      <BackgroundBeams />
     </Box>
     // </BackgroundBeamsWithCollision>
   );

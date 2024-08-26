@@ -107,7 +107,7 @@ export const AppProvider = ({ children }: any) => {
     );
     if (userExist === undefined) return;
     if (!address) {
-      navigate("/");
+      // navigate("/");
     } else if (userExist.length > 0) {
       var user = {
         address,

@@ -12,31 +12,31 @@ const App = () => {
   // const { initialized } = React.useContext(AppContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const publicKey = null;
+  // const publicKey = null;
 
-  React.useMemo(() => {
-    if (publicKey === null) {
-      if (location.pathname.includes("details/")) {
-        return;
-      } else {
-        navigate("/", {
-          state: location || "campaign",
-        });
-      }
-    }
-  }, [publicKey]);
+  // React.useMemo(() => {
+  //   if (publicKey === null) {
+  //     if (location.pathname.includes("details/")) {
+  //       return;
+  //     } else {
+  //       navigate("/", {
+  //         state: location || "campaign",
+  //       });
+  //     }
+  //   }
+  // }, [publicKey]);
 
-  React.useEffect(() => {
-    if (publicKey === null) {
-      if (location.pathname.includes("details/")) {
-        return;
-      } else {
-        navigate("/", {
-          state: location || "campaign",
-        });
-      }
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (publicKey === null) {
+  //     if (location.pathname.includes("details/")) {
+  //       return;
+  //     } else {
+  //       navigate("/", {
+  //         state: location || "campaign",
+  //       });
+  //     }
+  //   }
+  // }, []);
 
   return (
     <React.Fragment>
