@@ -53,7 +53,6 @@ function LandingPage() {
   };
 
   return (
-    // <BackgroundBeamsWithCollision>
     <Box
       h="100vh"
       display="flex"
