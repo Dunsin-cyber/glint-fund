@@ -1,4 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
+import "@fontsource/montserrat";
 
 const theme = extendTheme({
   colors: {
@@ -17,7 +18,7 @@ const theme = extendTheme({
     global: {
       body: {
         bgGradient: "linear(to-br, #0A0315, #2C014D)",
-        bg: "#301934",
+        // bg: "#301934",
         color: "white",
       },
     },

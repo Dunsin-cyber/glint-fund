@@ -16,9 +16,33 @@ import { AppContext } from "../../Context";
 import toast from "react-hot-toast";
 import Navbar from "../Navbar/Nav2";
 import Footer from "../Footer";
-import { BackgroundBeamsWithCollision } from "../../animations/background";
 import { BackgroundBeams } from "../../animations/background-beams";
-// import { ReactTyped } from "react-typed";
+import { TypewriterEffectSmooth } from "../../animations/typewriter-effect";
+import Lottie from "lottie-react";
+import ICON from "../../animations/GIF/home-icon.json";
+
+const words = [
+  {
+    text: "Easily",
+    className: "text-white",
+  },
+  {
+    text: "raise",
+    className: "text-white",
+  },
+  {
+    text: "funds",
+    className: "text-white",
+  },
+  {
+    text: "on",
+    className: "text-white",
+  },
+  {
+    text: "ZetaChain.",
+    className: "text-blue-500 dark:text-blue-500",
+  },
+];
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -50,31 +74,13 @@ function LandingPage() {
           flexDirection="column"
           justify={{ base: "center" }}
           w={{ md: "40%" }}
+          flexWrap="wrap"
         >
-          <Text
-            textAlign={{ base: "center", md: "left" }}
-            // fontFamily="'PP Neue Montreal Medium'"
-            fontSize={"36px"}
-            fontWeight={500}
-            fontStyle={"bold"}
-          >
-            Easily raise funds with Zetachain in 10 seconds
-          </Text>
-
+          <TypewriterEffectSmooth words={words} />
           <Text mt={10} textAlign={{ base: "center", md: "left" }}>
             Get crowd funds, manage NFT’s and manage your zetachain balances
           </Text>
-          {/* <ReactTyped
-            strings={[
-              "Get crowd funds",
-              "manage NFT’s and",
-              "manage your zetachain balances",
-            ]}
-            typeSpeed={40}
-            backSpeed={50}
-            attr="placeholder"
-            loop
-          /> */}
+
           <Hide below="md">
             <Button
               mt={10}
@@ -103,11 +109,12 @@ function LandingPage() {
           w={{ base: "100%", md: "40%" }}
           mt={{ base: 8, md: 0 }}
         >
-          <Image
+          {/* <Image
             w={{ base: 211, md: 448 }}
             h={{ base: 175, md: 371 }}
             src="/landing-page-logo.svg"
-          />
+          /> */}
+          <Lottie animationData={ICON} loop={true} />
           <Show below="md">
             <Button
               mt={10}
