@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Badge,
   Box,
   Center,
   Flex,
@@ -9,7 +8,9 @@ import {
   Container,
   Grid,
   Heading,
+  Badge,
   Progress,
+  Tag
 } from "@chakra-ui/react";
 import { AppContext } from "../../Context";
 import { Link } from "react-router-dom";
@@ -45,7 +46,7 @@ function Campaign() {
           <Text fontWeight={600}>Campaign</Text>
         </Flex>
         <Grid
-          templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
+          templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(4, 1fr)" }}
           gap={6}
         >
           {campaigns?.map((camp: any) => (
@@ -60,48 +61,14 @@ function Campaign() {
                 amountRequired={Number(camp.amount_required)}
                 name={camp.name}
                 description={camp.description}
+                tags={camp.tags}
               />
             </Link>
           ))}
         </Grid>
       </Flex>
     </HalfSide>
-    // <Container
-    //   maxW={{ base: "90%", md: "60%" }}
-    //   mt={10}
-    //   border={"1px solid white"}
-    //   py={10}
-    //   px={10}
-    // >
-    //   <Navbar />
-    //   <Box my={5}>
-    //     <Heading>Campaigns</Heading>
-    //     <Text py={4} fontSize={"24px"}>
-    //       This is the market place of different soalers who need funds, click on
-    //       any to fund
-    //     </Text>
-    //   </Box>
-    //   <Grid
-    //     templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
-    //     gap={6}
-    //   >
-    //     {campaigns?.map((camp: CampaignT) => (
-    //       <Link
-    //         style={{ textDecoration: "none" }}
-    //         key={camp.pubKey}
-    //         to={`/details/${camp.pubKey}`}
-    //       >
-    //         <Card
-    //           id={camp.pubKey}
-    //           amountDonated={camp.amountDonated}
-    //           amountRequired={camp.amountRequired}
-    //           name={camp.name}
-    //           description={camp.description}
-    //         />
-    //       </Link>
-    //     ))}
-    //   </Grid>
-    // </Container>
+
   );
 }
 
@@ -113,9 +80,17 @@ type CardT = {
   description: string;
   amountRequired: number;
   amountDonated: number;
+  tags:[string]
 };
 
-function Card({ id, name, description, amountDonated, amountRequired }: CardT) {
+const colors = [
+  "#C5AFEA", "#E2E8F0", "#FBCFE8"
+]
+const randomColor = Math.floor(Math.random() * colors.length);
+
+
+
+function Card({ id, name, description, amountDonated, amountRequired , tags}: CardT) {
   const progress = (amountDonated / amountRequired) * 100;
 
   const pics = [
@@ -132,17 +107,19 @@ function Card({ id, name, description, amountDonated, amountRequired }: CardT) {
     "coin.jpg",
   ];
 
+
   const random = Math.floor(Math.random() * pics.length);
+
   return (
     <Center>
       <Box
         p="5"
         maxW="301px"
-        border="none"
-        // bgColor=
+       borderRadius="md"
+        borderWidth="1px"
+        borderColor="#C5AFEA"
         cursor="pointer"
         transform="auto"
-        // onClick={onClick}
         _hover={{ transform: `scale(1.09)`, transition: "transform 0.3s ease" }}
         _active={{
           transform: `scale(1.09)`,
@@ -155,16 +132,16 @@ function Card({ id, name, description, amountDonated, amountRequired }: CardT) {
           borderRadius="md"
           src={`/dummyPic/${pics[random]}`}
         />
-        <Flex align="baseline" mt={2}>
-          <Text ml={2} fontSize="sm">
+        <Flex align="baseline" mt={3}>
+          <Text ml={2} fontSize="sm" fontWeight={700}>
             {name}
           </Text>
         </Flex>
-        <Text mt={2} fontSize="sm" lineHeight="short">
+        <Text my={2} fontSize="lg" lineHeight="short">
           {description}
         </Text>
         {/* <Text mt={2}>${amountRequired}</Text> */}
-        <Progress value={progress} />
+        <Progress size="sm" borderRadius="md" value={progress} />
         <Flex mt={2} justify="space-between" align="center">
           <Text ml={1} fontSize="sm">
             <b>${amountDonated}</b>
@@ -173,6 +150,12 @@ function Card({ id, name, description, amountDonated, amountRequired }: CardT) {
             <b>${amountRequired}</b>
           </Text>
         </Flex>
+        <Flex gap={2}>
+        {tags.map(tag => (
+          <Tag key={tag} bgColor={colors[randomColor]}>{tag}</Tag> 
+
+        ))}
+      </Flex>
       </Box>
     </Center>
   );

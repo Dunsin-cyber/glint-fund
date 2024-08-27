@@ -8,12 +8,14 @@ import { FiHome } from "react-icons/fi";
 import { Avatar } from "@chakra-ui/react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import MobileNavBar from "../Navbar/MobileNavbar"
+import { BackgroundBeams } from "../../animations/background-beams";
 
 
 function Index({ children }: any) {
   const navigate = useNavigate();
   return (
     <Flex h="100vh" bgColor="#C5AFEA">
+    
       {/* left */}
       <Hide below="md">
         <Box
@@ -138,6 +140,7 @@ function Index({ children }: any) {
         w={{ base: "100%", md: "80%" }}
       >
         {children}
+          {/* <BackgroundBeams/> */}
         <Show below="md">
       <MobileNavBar  />
       </Show>

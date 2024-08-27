@@ -10,6 +10,9 @@ import { useAppSelector } from "../../redux/hook";
 import { TransactionT } from "../../redux/types";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import MobileNavBar from "../Navbar/MobileNavbar"
+import { BackgroundBeams } from "../../animations/background-beams";
+
+
 
 function Index({ children }: any) {
   const navigate = useNavigate();
@@ -140,6 +143,7 @@ function Index({ children }: any) {
         borderRadius={{ base: "0px", md: "15px" }}
         w={{ base: "100%", md: "60%" }}
       >
+              {/* <BackgroundBeams/> */}
         {children}
 
         <Show below="md">
