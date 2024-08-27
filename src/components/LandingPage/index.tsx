@@ -25,23 +25,23 @@ import ICON from "../../animations/GIF/home-icon.json";
 const words = [
   {
     text: "Easily",
-    className: "text-white",
+    className: "text-white sm:text-4xl",
   },
   {
     text: "raise",
-    className: "text-white",
+    className: "text-white sm:text-4xl",
   },
   {
     text: "funds",
-    className: "text-white",
+    className: "text-white sm:text-4xl",
   },
   {
     text: "on",
-    className: "text-white",
+    className: "text-white sm:text-4xl",
   },
   {
     text: "ZetaChain.",
-    className: "text-blue-500 dark:text-blue-500",
+    className: "text-blue-500 dark:text-blue-500 sm:text-4xl",
   },
 ];
 
@@ -62,48 +62,43 @@ function LandingPage() {
       <BackgroundBeams />
       <Navbar />
       <Flex
-        mt={{ base: "5%", md: "1%" }}
+        mt={{ md: "1%" }}
         justify="center"
         align="center"
         flexDirection={{ base: "column", md: "row" }}
-        mx={"2%"}
+        mx={{ sm: "auto", md: "5%" }}
         h="80vh"
       >
         {/* left side */}
         <Flex
-          mx={"8%"}
-          flexDirection="column"
-          justify={{ base: "center" }}
-          w={{ base: "100%", md: "40%" }}
-          flexWrap="wrap"
+          gap={4}
+          flexDir="column"
+          justify={{ base: "center", md: "flex-start" }}
+          align={{ base: "center", md: "flex-start" }}
+          w={{ base: "80%", md: "60%" }}
+          mt={{ base: 1, md: 0 }}
         >
-          <div>
-            <TypewriterEffectSmooth words={words} className="text-4xl" />
+          <div className="">
+            <TypewriterEffectSmooth words={words} />
           </div>
-          <div className="text-md  font-montserrat font-normal text-neutral-600 dark:text-neutral-400">
+          <div className="sm:text-sm md:text-2xl font-montserrat font-normal text-purple-400 dark:text-purple-700 ">
             Get
-            <FlipWords words={words_} /> on Zetachain{" "}
+            <FlipWords className="text-white" words={words_} />
+            on Zetachain{" "}
           </div>
 
           <Hide below="md">
-            <button
-              className="px-3 bg-red-400 text-white cursor-pointer"
-              onClick={() => {
-                navigate("/connect-wallet");
-              }}
-            >
-              Get Started
-            </button>
             <Button
               mt={10}
               cursor="pointer"
               borderRadius={"10px"}
               borderColor="purple"
               variant={"purple"}
-              px={2}
-              py={2}
-              maxW={"20%"}
-              fontSize="10px"
+              // px={2}
+              py={1}
+              maxW={"30%"}
+              // fontSize="24px"
+              size="lg"
               onClick={() => {
                 navigate("/connect-wallet");
               }}
@@ -119,14 +114,9 @@ function LandingPage() {
           flexDir="column"
           justify={{ base: "center", md: "flex-end" }}
           align={{ base: "center", md: "flex-end" }}
-          w={{ base: "90%", md: "40%" }}
+          w={{ base: "60%", md: "40%" }}
           mt={{ base: 8, md: 0 }}
         >
-          {/* <Image
-            w={{ base: 211, md: 448 }}
-            h={{ base: 175, md: 371 }}
-            src="/landing-page-logo.svg"
-          /> */}
           <Lottie animationData={ICON} loop={true} />
           <Show below="md">
             <Button
@@ -140,7 +130,7 @@ function LandingPage() {
                 navigate("/connect-wallet");
               }}
             >
-              Connect
+              Get Started
             </Button>
           </Show>
         </Flex>
