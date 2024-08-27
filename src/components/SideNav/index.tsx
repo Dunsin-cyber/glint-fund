@@ -8,6 +8,8 @@ import { FiHome } from "react-icons/fi";
 import { Avatar } from "@chakra-ui/react";
 import { useAppSelector } from "../../redux/hook";
 import { TransactionT } from "../../redux/types";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 
 function Index({ children }: any) {
   const navigate = useNavigate();
@@ -31,7 +33,8 @@ function Index({ children }: any) {
             ZETAFUND
           </Text>
           <Box />
-          <w3m-button balance="hide" />
+          {/* <w3m-button balance="hide" /> */}
+          <ConnectButton/>
           {/* <Button maxWidth="200px" fontSize="10px" backgroundColor="#0a0315" /> */}
           <Flex
             fontWeight={600}

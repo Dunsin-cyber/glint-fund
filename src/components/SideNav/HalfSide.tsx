@@ -6,6 +6,7 @@ import { GoPeople } from "react-icons/go";
 import { BsRepeat } from "react-icons/bs";
 import { FiHome } from "react-icons/fi";
 import { Avatar } from "@chakra-ui/react";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 function Index({ children }: any) {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function Index({ children }: any) {
             ZETAFUND
           </Text>
           <Box />
-          <w3m-button balance="hide" />
+          <ConnectButton/>
           {/* <Button maxWidth="200px" fontSize="10px" backgroundColor="#0a0315" /> */}
           <Flex
             fontWeight={600}

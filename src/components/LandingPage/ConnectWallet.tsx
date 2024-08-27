@@ -14,18 +14,13 @@ import toast from "react-hot-toast";
 import Navbar from "../Navbar/Nav2";
 import Footer from "../Footer";
 import { useAccount } from "wagmi";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { BackgroundBeams } from "../../animations/background-beams";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 function ConnectWallet() {
   const navigate = useNavigate();
   const account = useAccount();
   console.log(account);
-  const { open, close } = useWeb3Modal();
-
-  const handleClick = async () => {
-    open();
-  };
 
   return (
     <Box h="100vh">
@@ -44,7 +39,8 @@ function ConnectWallet() {
             </Text>
             <Flex mt={8}>
               {/* <w3m-button balance="hide" /> */}
-              <Button onClick={handleClick}>Connect Wallet</Button>
+              <ConnectButton/>
+              {/* <Button onClick={handleClick}>Connect Wallet</Button> */}
             </Flex>
           </Center>
         </Container>

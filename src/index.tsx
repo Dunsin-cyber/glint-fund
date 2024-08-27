@@ -16,7 +16,9 @@ import "@fontsource/montserrat/400-italic.css"; // Specify weight and style
 import { Toaster } from "react-hot-toast";
 import "./utils/web3modal";
 import "./index.css";
+import '@rainbow-me/rainbowkit/styles.css';
 // import "tailwindcss/tailwind.css";
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -33,7 +35,9 @@ root.render(
             <AppProvider>
               <Toaster />
               <ChakraProvider theme={theme}>
+                <RainbowKitProvider modalSize="compact">
                 <App />
+                </RainbowKitProvider>
               </ChakraProvider>
             </AppProvider>
           </QueryClientProvider>

@@ -1,19 +1,21 @@
-import { http, createConfig, createStorage } from "wagmi";
-import { zetachainAthensTestnet } from "wagmi/chains";
-import { metaMask } from "wagmi/connectors";
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  getDefaultConfig,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { WagmiProvider } from 'wagmi';
+import {
+  zetachainAthensTestnet, zetachain
+} from 'wagmi/chains';
+import {
+  QueryClientProvider,
+  QueryClient,
+} from "@tanstack/react-query";
 
-declare module "wagmi" {
-  interface Register {
-    config: typeof config;
-  }
-}
 
-export const config = createConfig({
-  chains: [zetachainAthensTestnet],
-  connectors: [metaMask()],
-  transports: {
-    [zetachainAthensTestnet.id]: http(),
-  },
+export const config = getDefaultConfig({
+  appName: 'ZetaFund',
+  projectId: 'YOUR_PROJECT_ID',
+  chains: [zetachainAthensTestnet, zetachain],
+  // ssr: true, // If your dApp uses server side rendering (SSR)
 });
-
-// const storage = c  reateStorage({ storage: localStorage });
