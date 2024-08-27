@@ -62,7 +62,7 @@ function LandingPage() {
       <BackgroundBeams />
       <Navbar />
       <Flex
-        mt={{ md: "1%" }}
+        mt={{base:8, md: "1%" }}
         justify="center"
         align="center"
         flexDirection={{ base: "column", md: "row" }}
@@ -76,7 +76,7 @@ function LandingPage() {
           justify={{ base: "center", md: "flex-start" }}
           align={{ base: "center", md: "flex-start" }}
           w={{ base: "90%", md: "60%" }}
-          mt={{  md: 0 }}
+          mt={{ base: 4, md: 0 }}
         >
           <Show above="md">
           <div className="">
@@ -84,12 +84,12 @@ function LandingPage() {
           </div>
           </Show>
           <Show below="md">
-          <Flex fontWeight={700} fontSize="2xl" justify="center" textAlign="center">
-          <Text>Easily raise funds on &nbsp;<span className="text-purple-500 ">ZetaChain</span></Text>
+          <Flex fontWeight={700} fontSize="3xl" justify="center" textAlign="center">
+          <Text>Easily raise funds on &nbsp;<span className="text-purple-500">ZetaChain</span></Text>
           </Flex>
 </Show>
 
-          <div className="sm:text-sm md:text-2xl font-montserrat font-normal text-purple-400 dark:text-purple-700 text-center">
+          <div className="sm:text-sm md:text-2xl mt-3 font-montserrat font-normal text-purple-400 dark:text-purple-700 text-center">
             Get
             <FlipWords className="text-white" words={words_} />
             on Zetachain{" "}
@@ -122,13 +122,13 @@ function LandingPage() {
           flexDir="column"
           justify={{ base: "center", md: "flex-end" }}
           align={{ base: "center", md: "flex-end" }}
-          w={{ base: "80%", md: "40%" }}
-          mt={{ base: 8, md: 0 }}
+          w={{ base: "95%", md: "40%" }}
+          mt={{ base: 10, md: 0 }}
         >
           <Lottie animationData={ICON} loop={true} />
           <Show below="md">
             <Button
-              mt={10}
+              mt="15%"
               borderRadius={"5px"}
               borderColor="purple"
               variant={"purple"}
