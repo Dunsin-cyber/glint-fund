@@ -84,13 +84,12 @@ function LandingPage() {
           </div>
           </Show>
           <Show below="md">
-          <Flex fontWeight={700} fontSize="2xl">
-          <Text>Easily raise funds on &nbsp;</Text>
-          <Text className="text-purple-500">ZetaChain</Text>
+          <Flex fontWeight={700} fontSize="2xl" justify="center" textAlign="center">
+          <Text>Easily raise funds on &nbsp;<span className="text-purple-500 ">ZetaChain</span></Text>
           </Flex>
 </Show>
 
-          <div className="sm:text-sm md:text-2xl font-montserrat font-normal text-purple-400 dark:text-purple-700 ">
+          <div className="sm:text-sm md:text-2xl font-montserrat font-normal text-purple-400 dark:text-purple-700 text-center">
             Get
             <FlipWords className="text-white" words={words_} />
             on Zetachain{" "}
@@ -123,7 +122,7 @@ function LandingPage() {
           flexDir="column"
           justify={{ base: "center", md: "flex-end" }}
           align={{ base: "center", md: "flex-end" }}
-          w={{ base: "60%", md: "40%" }}
+          w={{ base: "80%", md: "40%" }}
           mt={{ base: 8, md: 0 }}
         >
           <Lottie animationData={ICON} loop={true} />
