@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Flex, Text, Hide, Image, Button } from "@chakra-ui/react";
+import { Box, Flex, Text, Hide, Image, Button, Show,  } from "@chakra-ui/react";
 import { TbWorld } from "react-icons/tb";
 import { GoPeople } from "react-icons/go";
 import { BsRepeat } from "react-icons/bs";
@@ -9,7 +9,7 @@ import { Avatar } from "@chakra-ui/react";
 import { useAppSelector } from "../../redux/hook";
 import { TransactionT } from "../../redux/types";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-
+import MobileNavBar from "../Navbar/MobileNavbar"
 
 function Index({ children }: any) {
   const navigate = useNavigate();
@@ -34,7 +34,13 @@ function Index({ children }: any) {
           </Text>
           <Box />
           {/* <w3m-button balance="hide" /> */}
-          <ConnectButton/>
+          <ConnectButton
+           chainStatus="none"
+           accountStatus={{
+            smallScreen: 'avatar',
+            largeScreen: 'avatar',
+          }}
+          />
           {/* <Button maxWidth="200px" fontSize="10px" backgroundColor="#0a0315" /> */}
           <Flex
             fontWeight={600}
@@ -135,6 +141,10 @@ function Index({ children }: any) {
         w={{ base: "100%", md: "60%" }}
       >
         {children}
+
+        <Show below="md">
+      <MobileNavBar  />
+      </Show>
       </Box>
       {/* right */}
       <Hide below="md">

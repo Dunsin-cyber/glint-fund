@@ -35,7 +35,10 @@ root.render(
             <AppProvider>
               <Toaster />
               <ChakraProvider theme={theme}>
-                <RainbowKitProvider modalSize="compact">
+                <RainbowKitProvider  
+                appInfo={{
+        appName: 'ZetaFund',
+      }} modalSize="compact">
                 <App />
                 </RainbowKitProvider>
               </ChakraProvider>

@@ -21,6 +21,7 @@ import { motion } from "framer-motion";
 import { useWriteContract } from "wagmi";
 import contractAbi from "../../contract/CrowdFunding-abi.json";
 import toast from "react-hot-toast";
+import MobileNavBar from "../Navbar/MobileNavbar"
 
 import { Transactions } from "../Campaign/Details";
 import SideNav from "../SideNav";
@@ -101,10 +102,12 @@ function Index() {
           />
         </Hide>
         <Show below="md">
+          <Flex justify="center" mx="auto" >
           <OptionCard_
             title={"Crowdfunding"}
             description="easily raise funds under 10 seconds"
           />
+          </Flex>
         </Show>
       </Flex>
 
@@ -186,6 +189,11 @@ function Index() {
       >
         Claim Donation
       </Button>
+   {/*    <Show below="md">
+      <Flex mt="50%" maxW="100%">
+      <MobileNavBar/>
+      </Flex>
+      </Show> */}
     </SideNav>
   );
 }

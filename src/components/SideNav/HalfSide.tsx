@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Box, Flex, Text, Hide, Image, Button } from "@chakra-ui/react";
+import { Box, Flex, Text, Hide, Image, Button, Show } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { TbWorld } from "react-icons/tb";
 import { GoPeople } from "react-icons/go";
@@ -7,6 +7,8 @@ import { BsRepeat } from "react-icons/bs";
 import { FiHome } from "react-icons/fi";
 import { Avatar } from "@chakra-ui/react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import MobileNavBar from "../Navbar/MobileNavbar"
+
 
 function Index({ children }: any) {
   const navigate = useNavigate();
@@ -29,7 +31,13 @@ function Index({ children }: any) {
             ZETAFUND
           </Text>
           <Box />
-          <ConnectButton/>
+          <ConnectButton
+           chainStatus="none"
+           accountStatus={{
+            smallScreen: 'avatar',
+            largeScreen: 'avatar',
+          }}
+          />
           {/* <Button maxWidth="200px" fontSize="10px" backgroundColor="#0a0315" /> */}
           <Flex
             fontWeight={600}
@@ -130,6 +138,9 @@ function Index({ children }: any) {
         w={{ base: "100%", md: "80%" }}
       >
         {children}
+        <Show below="md">
+      <MobileNavBar  />
+      </Show>
       </Box>
       {/* right */}
     </Flex>

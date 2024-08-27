@@ -17,5 +17,6 @@ export const config = getDefaultConfig({
   appName: 'ZetaFund',
   projectId: 'YOUR_PROJECT_ID',
   chains: [zetachainAthensTestnet, zetachain],
+  ...(process.env.REACT_APP_ENABLE_TESTNETS === 'true' ? [zetachainAthensTestnet] : [zetachain]),
   // ssr: true, // If your dApp uses server side rendering (SSR)
 });

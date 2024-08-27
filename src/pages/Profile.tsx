@@ -1,12 +1,12 @@
 import React from "react";
+import {Box} from "@chakra-ui/react"
 import Profile_ from "../components/Profile/index";
-import Navbar from "../components/Navbar";
 
 function Profile() {
   return (
-    <>
-      <Profile_ />;
-    </>
+    <Box h="100vh">
+      <Profile_ />
+      </Box>
   );
 }
 
