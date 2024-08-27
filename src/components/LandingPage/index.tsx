@@ -41,7 +41,7 @@ const words = [
   },
   {
     text: "ZetaChain.",
-    className: "text-blue-500 dark:text-blue-500 sm:text-4xl",
+    className: "text-purple-500 dark:text-purple-500 sm:text-4xl",
   },
 ];
 
@@ -75,12 +75,21 @@ function LandingPage() {
           flexDir="column"
           justify={{ base: "center", md: "flex-start" }}
           align={{ base: "center", md: "flex-start" }}
-          w={{ base: "80%", md: "60%" }}
-          mt={{ base: 1, md: 0 }}
+          w={{ base: "90%", md: "60%" }}
+          mt={{  md: 0 }}
         >
+          <Show above="md">
           <div className="">
             <TypewriterEffectSmooth words={words} />
           </div>
+          </Show>
+          <Show below="md">
+          <Flex fontWeight={700} fontSize="2xl">
+          <Text>Easily raise funds on &nbsp;</Text>
+          <Text className="text-purple-500">ZetaChain</Text>
+          </Flex>
+</Show>
+
           <div className="sm:text-sm md:text-2xl font-montserrat font-normal text-purple-400 dark:text-purple-700 ">
             Get
             <FlipWords className="text-white" words={words_} />
