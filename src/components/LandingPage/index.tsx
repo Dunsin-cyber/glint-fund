@@ -122,7 +122,7 @@ function LandingPage() {
           flexDir="column"
           justify={{ base: "center", md: "flex-end" }}
           align={{ base: "center", md: "flex-end" }}
-          w={{ base: "95%", md: "40%" }}
+          w={{ base: "90%", md: "40%" }}
           mt={{ base: 10, md: 0 }}
         >
           <Lottie animationData={ICON} loop={true} />
@@ -147,7 +147,7 @@ function LandingPage() {
         <Footer />
       </Box>
     </Box>
-    // </BackgroundBeamsWithCollision>
+   
   );
 }
 
