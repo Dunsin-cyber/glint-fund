@@ -62,14 +62,14 @@ function LandingPage() {
       <BackgroundBeams />
       <Navbar />
       <Flex
-        mt={{base:8, md: "1%" }}
+        mt={{ base: 8, md: "1%" }}
         justify="center"
         align="center"
         flexDirection={{ base: "column", md: "row" }}
         mx={{ sm: "auto", md: "5%" }}
         h="80vh"
       >
-        {/* left side */}
+        {/* left-side */}
         <Flex
           gap={4}
           flexDir="column"
@@ -79,15 +79,23 @@ function LandingPage() {
           mt={{ base: 4, md: 0 }}
         >
           <Show above="md">
-          <div className="">
-            <TypewriterEffectSmooth words={words} />
-          </div>
+            <div className="">
+              <TypewriterEffectSmooth words={words} />
+            </div>
           </Show>
           <Show below="md">
-          <Flex fontWeight={700} fontSize="3xl" justify="center" textAlign="center">
-          <Text>Easily raise funds on &nbsp;<span className="text-purple-500">ZetaChain</span></Text>
-          </Flex>
-</Show>
+            <Flex
+              fontWeight={700}
+              fontSize="3xl"
+              justify="center"
+              textAlign="center"
+            >
+              <Text>
+                Easily raise funds on &nbsp;
+                <span className="text-purple-500">ZetaChain</span>
+              </Text>
+            </Flex>
+          </Show>
 
           <div className="sm:text-sm md:text-2xl mt-3 font-montserrat font-normal text-purple-400 dark:text-purple-700 text-center">
             Get
@@ -147,7 +155,6 @@ function LandingPage() {
         <Footer />
       </Box>
     </Box>
-   
   );
 }
 
