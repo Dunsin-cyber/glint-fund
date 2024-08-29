@@ -71,7 +71,7 @@ function LandingPage() {
       >
         {/* left-side */}
         <Flex
-          gap={4}
+          gap={3}
           flexDir="column"
           justify={{ base: "center", md: "flex-start" }}
           align={{ base: "center", md: "flex-start" }}
