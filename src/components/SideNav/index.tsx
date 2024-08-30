@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
-import { useNavigate } from "react-router-dom";
-import { Box, Flex, Text, Hide, Image, Button, Show,  } from "@chakra-ui/react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Box, Flex, Text, Hide, Image, Button, Show } from "@chakra-ui/react";
 import { TbWorld } from "react-icons/tb";
 import { GoPeople } from "react-icons/go";
 import { BsRepeat } from "react-icons/bs";
@@ -8,15 +8,18 @@ import { FiHome } from "react-icons/fi";
 import { Avatar } from "@chakra-ui/react";
 import { useAppSelector } from "../../redux/hook";
 import { TransactionT } from "../../redux/types";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import MobileNavBar from "../Navbar/MobileNavbar"
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import MobileNavBar from "../Navbar/MobileNavbar";
 import { BackgroundBeams } from "../../animations/background-beams";
-
-
 
 function Index({ children }: any) {
   const navigate = useNavigate();
   const transaction = useAppSelector((state) => state.transction);
+
+  const location = useLocation();
+  const pathname = location.pathname;
+
+  // const { pathname } = use();
   return (
     <Flex h="100vh" bgColor="#C5AFEA">
       {/* left */}
@@ -38,18 +41,17 @@ function Index({ children }: any) {
           <Box />
           {/* <w3m-button balance="hide" /> */}
           <ConnectButton
-           chainStatus="none"
-           accountStatus={{
-            smallScreen: 'avatar',
-            largeScreen: 'avatar',
-          }}
+            chainStatus="none"
+            accountStatus={{
+              smallScreen: "avatar",
+              largeScreen: "avatar",
+            }}
           />
           {/* <Button maxWidth="200px" fontSize="10px" backgroundColor="#0a0315" /> */}
           <Flex
             fontWeight={600}
             py={3}
             px={3}
-            color="black"
             justify="center"
             align="center"
             gap={1}
@@ -63,6 +65,10 @@ function Index({ children }: any) {
               bg: "purple.600",
               transform: "scale(1.05)",
             }}
+            bgColor={
+              pathname.includes("campaign") ? "purple.600" : "transparent"
+            }
+            color={pathname.includes("campaign") ? "white" : "black"}
             _focus={{ boxShadow: "outline" }}
           >
             <FiHome />
@@ -70,7 +76,7 @@ function Index({ children }: any) {
           </Flex>
           <Flex
             fontWeight={600}
-            color="black"
+            color={pathname.includes("profile") ? "white" : "black"}
             justify="center"
             align="center"
             gap={1}
@@ -78,6 +84,9 @@ function Index({ children }: any) {
             onClick={() => {
               navigate("/profile");
             }}
+            bgColor={
+              pathname.includes("profile") ? "purple.600" : "transparent"
+            }
             borderRadius="md"
             py={3}
             px={3}
@@ -101,6 +110,9 @@ function Index({ children }: any) {
             onClick={() => {
               navigate("/campaign");
             }}
+            // bgColor={
+            //   pathname.includes("campaign") ? "purple.600" : "transparent"
+            // }
             borderRadius="md"
             py={3}
             px={3}
@@ -143,12 +155,12 @@ function Index({ children }: any) {
         borderRadius={{ base: "0px", md: "15px" }}
         w={{ base: "100%", md: "60%" }}
       >
-              {/* <BackgroundBeams/> */}
+        {/* <BackgroundBeams/> */}
         {children}
 
         <Show below="md">
-      <MobileNavBar  />
-      </Show>
+          <MobileNavBar />
+        </Show>
       </Box>
       {/* right */}
       <Hide below="md">
