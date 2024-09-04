@@ -3,7 +3,7 @@
 // Function to get the price of a token
 export async function getTokenPrice(tokenId: any) {
   try {
-    console.log("was called");
+    // console.log("was called");
     // Make a GET request to the CoinGecko API
     const response = await fetch(
       `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`
@@ -16,7 +16,7 @@ export async function getTokenPrice(tokenId: any) {
     const price: number = data[tokenId].usd;
     // console.log(data);
 
-    // console.log(`The current price of ${tokenId} is $${price}`);
+    console.log(`The current price of ${tokenId} is $${price}`);
     return price;
   } catch (error) {
     console.error("Error fetching token price:", error);
@@ -25,5 +25,7 @@ export async function getTokenPrice(tokenId: any) {
 }
 
 export async function getTokenConversion(zeta: number) {
-  return zeta * (await getTokenPrice("zetachain"));
+  var ans = zeta * (await getTokenPrice("zetachain"));
+  console.log("converstion", ans);
+  return ans;
 }

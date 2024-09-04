@@ -58,11 +58,14 @@ function Details() {
 
   const handleDonate = async () => {
     try {
+      if (eqSendingZeta <= 0) {
+        return toast("checking convertion.. please wait");
+      }
       const hash = await writeContractAsync({
         abi: contractAbi.abi,
         address: contractAddress,
         functionName: "donate",
-        value: parseEther("3"),
+        value: parseEther(`${eqSendingZeta}`),
         args: [id],
       });
 
@@ -157,7 +160,7 @@ function Details() {
               my={3}
               color="white"
               bgColor="purple"
-              // isDisabled={}
+              isDisabled={eqSendingZeta <= 0}
             >
               Send {eqSendingZeta} Zeta to {data[2]}
             </Button>

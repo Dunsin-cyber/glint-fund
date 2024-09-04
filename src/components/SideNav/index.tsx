@@ -10,7 +10,7 @@ import { useAppSelector } from "../../redux/hook";
 import { TransactionT } from "../../redux/types";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import MobileNavBar from "../Navbar/MobileNavbar";
-import { BackgroundBeams } from "../../animations/background-beams";
+// import { BackgroundBeams } from "../../animations/background-beams";
 
 function Index({ children }: any) {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ function Index({ children }: any) {
           px={"4%"}
         >
           <Text size="24px" fontStyle="bold" fontWeight={600} color="#181425">
-            ZETAFUND
+            GLINTFUND
           </Text>
           <Box />
           {/* <w3m-button balance="hide" /> */}
@@ -110,9 +110,6 @@ function Index({ children }: any) {
             onClick={() => {
               navigate("/campaign");
             }}
-            // bgColor={
-            //   pathname.includes("campaign") ? "purple.600" : "transparent"
-            // }
             borderRadius="md"
             py={3}
             px={3}

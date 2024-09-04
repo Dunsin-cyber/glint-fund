@@ -32,7 +32,7 @@ function Index({ children }: any) {
           px={"4%"}
         >
           <Text size="24px" fontStyle="bold" fontWeight={600} color="#181425">
-            ZETAFUND
+            GLINTFUND
           </Text>
           <Box />
           <ConnectButton
@@ -114,9 +114,6 @@ function Index({ children }: any) {
             onClick={() => {
               navigate("/campaign");
             }}
-            // bgColor={
-            //   pathname.includes("campaign") ? "purple.600" : "transparent"
-            // }
           >
             <TbWorld />
             <Text>Campaign</Text>
