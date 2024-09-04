@@ -1,8 +1,9 @@
 // import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { Button } from "@chakra-ui/react";
 
-function WaitlistModal({ showModal, setShowModal, addToWaitlist }) {
+function WaitlistModal({ showModal, setShowModal, addToWaitlist, loading }) {
   // Close modal when user clicks outside or on close icon
   const closeModal = () => setShowModal(false);
 
@@ -14,14 +15,14 @@ function WaitlistModal({ showModal, setShowModal, addToWaitlist }) {
     reset,
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
 
     if (data.name && data.email) {
-      addToWaitlist(data);
+      await addToWaitlist(data);
       reset();
       closeModal();
-      setTimeout(showSuccessToast, 2000);
+      showSuccessToast();
     } else {
       console.error("Form submission error: Name or email missing");
     }
@@ -93,13 +94,16 @@ function WaitlistModal({ showModal, setShowModal, addToWaitlist }) {
               <p className="text-red-600">{errors.email.message}</p>
             )}
           </div>
-
-          <button
+          <Button
+            w="full"
+            color="purple"
+            text="white"
             type="submit"
-            className="bg-purple-700 text-white p-2 rounded w-full"
+            isDisabled={loading}
+            isLoading={loading}
           >
             Submit
-          </button>
+          </Button>
         </form>
       </div>
     </div>

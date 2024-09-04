@@ -50,6 +50,7 @@ const words = [
 
 function LandingPage() {
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const words_ = ["crowd funds", "manage NFT’s", "manage your balances"];
@@ -64,17 +65,22 @@ function LandingPage() {
 
   const addToWaitlist = async (data: WaitlistFormData) => {
     try {
+      setLoading(true);
       const { error } = await supabase
         .from("waitlist")
         .insert([{ name: data.name, email: data.email }])
         .select();
 
       if (error) {
+        setLoading(false);
+        toast.error("Error adding to waitlist");
         console.error("Error adding to waitlist:", error);
       } else {
+        setLoading(false);
         console.log("Successfully added to waitlist:", data);
       }
     } catch (error) {
+      setLoading(false);
       console.error("An unexpected error occurred:", error);
     }
   };
@@ -89,7 +95,7 @@ function LandingPage() {
       <BackgroundBeams />
       <Navbar />
       <Flex
-        mt={{ base: 8, md: "1%" }}
+        mt={{ base: 1, md: "1%" }}
         justify="center"
         align="center"
         flexDirection={{ base: "column", md: "row" }}
@@ -103,7 +109,7 @@ function LandingPage() {
           justify={{ base: "center", md: "flex-start" }}
           align={{ base: "center", md: "flex-start" }}
           w={{ base: "90%", md: "60%" }}
-          mt={{ base: 4, md: 0 }}
+          mt={{ base: 1, md: 0 }}
         >
           <Show above="md">
             <div className="">
@@ -185,6 +191,7 @@ function LandingPage() {
             showModal={showModal}
             setShowModal={setShowModal}
             addToWaitlist={addToWaitlist}
+            loading={loading}
           />
         )}
 
