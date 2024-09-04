@@ -134,7 +134,7 @@ function LandingPage() {
             <div className="sm:text-sm md:text-2xl mt-3 font-montserrat font-normal text-purple-400 dark:text-purple-700 text-center">
               Get
               <FlipWords className="text-white" words={words_} />
-              on Zetachain{" "}
+              on GlintFund{" "}
             </div>
 
             <Hide below="md">
