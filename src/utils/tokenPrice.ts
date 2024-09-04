@@ -24,8 +24,10 @@ export async function getTokenPrice(tokenId: any) {
   }
 }
 
+//returns in dollars
 export async function getTokenConversion(zeta: number) {
-  var ans = zeta * (await getTokenPrice("zetachain"));
+  if (zeta === 0) return 0;
+  var ans = zeta / (await getTokenPrice("zetachain"));
   console.log("converstion", ans);
   return ans;
 }

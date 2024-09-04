@@ -23,3 +23,8 @@ export type TransactionT = {
   status: string;
   signature: string;
 };
+
+export type PriceT = {
+  usd: string;
+  zeta: number;
+};

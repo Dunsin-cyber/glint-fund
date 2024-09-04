@@ -64,7 +64,6 @@ function Onboarding1() {
       {/* Right */}
       <Box
         px={10}
-        zIndex={1000000}
         pl={{ md: "150px" }}
         pt={{ base: "5vh", md: "30vh" }}
         color="black"

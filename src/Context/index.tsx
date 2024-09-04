@@ -144,7 +144,7 @@ export const AppProvider = ({ children }: any) => {
         initUser,
         getAllCampaigns,
         getACampaign,
-        donate,
+        donate
       }}
     >
       {children}
