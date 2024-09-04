@@ -44,11 +44,11 @@ function WaitlistModal({ showModal, setShowModal, addToWaitlist, loading }) {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="fixed  md:inset-0  lg:inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
       onClick={closeModal}
     >
       <div
-        className="bg-white p-6 rounded shadow-lg w-full max-w-md relative"
+        className="bg-white p-6 rounded shadow-lg w-full sm:w-1/2 max-w-md  relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Icon */}

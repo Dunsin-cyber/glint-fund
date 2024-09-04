@@ -95,7 +95,7 @@ function LandingPage() {
       <BackgroundBeams />
       <Navbar />
       <Flex
-        mt={{ base: 1, md: "1%" }}
+        mt={{ base: 2, md: "1%" }}
         justify="center"
         align="center"
         flexDirection={{ base: "column", md: "row" }}
