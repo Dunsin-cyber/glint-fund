@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
   Box,
   Text,
@@ -21,6 +22,8 @@ import { TypewriterEffectSmooth } from "../../animations/typewriter-effect";
 import { FlipWords } from "../../animations/flip-words";
 import Lottie from "lottie-react";
 import ICON from "../../animations/GIF/home-icon.json";
+import WaitlistModal from "../Waitlist/WaitlistModal.jsx";
+import supabase from "../../Services/supabase";
 
 const words = [
   {
@@ -46,10 +49,34 @@ const words = [
 ];
 
 function LandingPage() {
+  const [showModal, setShowModal] = useState(false);
+
   const navigate = useNavigate();
   const words_ = ["crowd funds", "manage NFT’s", "manage your balances"];
   const handleClick = async () => {
     navigate("profile");
+  };
+
+  interface WaitlistFormData {
+    name: string;
+    email: string;
+  }
+
+  const addToWaitlist = async (data: WaitlistFormData) => {
+    try {
+      const { error } = await supabase
+        .from("waitlist")
+        .insert([{ name: data.name, email: data.email }])
+        .select();
+
+      if (error) {
+        console.error("Error adding to waitlist:", error);
+      } else {
+        console.log("Successfully added to waitlist:", data);
+      }
+    } catch (error) {
+      console.error("An unexpected error occurred:", error);
+    }
   };
 
   return (
@@ -104,25 +131,62 @@ function LandingPage() {
           </div>
 
           <Hide below="md">
-            <Button
-              mt={10}
-              cursor="pointer"
-              borderRadius={"10px"}
-              borderColor="purple"
-              variant={"purple"}
-              // px={2}
-              py={1}
-              maxW={"30%"}
-              // fontSize="24px"
-              size="lg"
-              onClick={() => {
-                navigate("/connect-wallet");
-              }}
-            >
-              Get Started
-            </Button>
+            <div className="flex gap-8 items-center">
+              <Button
+                mt={10}
+                cursor="pointer"
+                bg="transparent"
+                color="white"
+                _hover={{ bg: "transparent", color: "gray.300" }}
+                _active={{ bg: "transparent" }}
+                size="md"
+                onClick={() => setShowModal(true)}
+              >
+                Join Waitlist
+              </Button>
+
+              <Button
+                mt={10}
+                cursor="pointer"
+                borderRadius={"10px"}
+                borderColor="purple"
+                variant={"purple"}
+                px={3}
+                py={1}
+                maxW={"45%"}
+                // fontSize="24px"
+                size="md"
+                onClick={() => {
+                  navigate("/connect-wallet");
+                }}
+              >
+                Get Started
+              </Button>
+
+              {/* <Button
+                mt={10}
+                cursor="pointer"
+                borderRadius={"10px"}
+                borderColor="purple"
+                variant={"purple"}
+                maxW={"45%"}
+                // fontSize="24px"
+                size="lg"
+                onClick={() => setShowModal(true)}
+              >
+                Join Waitlist
+              </Button> */}
+            </div>
           </Hide>
         </Flex>
+
+        {showModal && (
+          <WaitlistModal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            addToWaitlist={addToWaitlist}
+          />
+        )}
 
         {/* right side */}
         <Flex
@@ -136,11 +200,23 @@ function LandingPage() {
           <Lottie animationData={ICON} loop={true} />
           <Show below="md">
             <Button
-              mt="15%"
+              mt={10}
+              cursor="pointer"
+              bg="transparent"
+              color="white"
+              _hover={{ bg: "transparent", color: "gray.300" }}
+              _active={{ bg: "transparent" }}
+              size="sm"
+              onClick={() => setShowModal(true)}
+            >
+              Join Waitlist
+            </Button>
+            <Button
+              mt="2%"
               borderRadius={"5px"}
               borderColor="purple"
               variant={"purple"}
-              // px={2}
+              px={2}
               py={2}
               onClick={() => {
                 navigate("/connect-wallet");
@@ -148,6 +224,20 @@ function LandingPage() {
             >
               Get Started
             </Button>
+
+            {/* <Button
+              mt="15%"
+              borderRadius={"5px"}
+              borderColor="purple"
+              variant={"purple"}
+              // px={2}
+              py={2}
+              // onClick={() => {
+              //   navigate("/connect-wallet");
+              // }}
+            >
+              Join Waitlist
+            </Button> */}
           </Show>
         </Flex>
       </Flex>
