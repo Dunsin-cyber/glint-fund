@@ -86,58 +86,113 @@ function LandingPage() {
   };
 
   return (
-    <Box
-      h="100vh"
-      display="flex"
-      alignItems="space-evenly"
-      flexDirection={"column"}
-    >
+    <>
       <BackgroundBeams />
-      <Navbar />
-      <Flex
-        mt={{ base: 2, md: "1%" }}
-        justify="center"
-        align="center"
-        flexDirection={{ base: "column", md: "row" }}
-        mx={{ sm: "auto", md: "5%" }}
-        h="80vh"
+      <Box
+        h="100vh"
+        display="flex"
+        alignItems="space-evenly"
+        flexDirection={"column"}
       >
-        {/* left-side */}
+        <Navbar />
         <Flex
-          gap={4}
-          flexDir="column"
-          justify={{ base: "center", md: "flex-start" }}
-          align={{ base: "center", md: "flex-start" }}
-          w={{ base: "90%", md: "60%" }}
-          mt={{ base: 1, md: 0 }}
+          mt={{ base: 2, md: "1%" }}
+          justify="center"
+          align="center"
+          flexDirection={{ base: "column", md: "row" }}
+          mx={{ sm: "auto", md: "5%" }}
+          h="80vh"
         >
-          <Show above="md">
-            <div className="">
-              <TypewriterEffectSmooth words={words} />
+          {/* left-side */}
+          <Flex
+            gap={4}
+            flexDir="column"
+            justify={{ base: "center", md: "flex-start" }}
+            align={{ base: "center", md: "flex-start" }}
+            w={{ base: "90%", md: "60%" }}
+            mt={{ base: 1, md: 0 }}
+          >
+            <Show above="md">
+              <div className="">
+                <TypewriterEffectSmooth words={words} />
+              </div>
+            </Show>
+            <Show below="md">
+              <Flex
+                fontWeight={700}
+                fontSize="3xl"
+                justify="center"
+                textAlign="center"
+              >
+                <Text>
+                  Easily raise funds on &nbsp;
+                  <span className="text-purple-500">ZetaChain</span>
+                </Text>
+              </Flex>
+            </Show>
+
+            <div className="sm:text-sm md:text-2xl mt-3 font-montserrat font-normal text-purple-400 dark:text-purple-700 text-center">
+              Get
+              <FlipWords className="text-white" words={words_} />
+              on Zetachain{" "}
             </div>
-          </Show>
-          <Show below="md">
-            <Flex
-              fontWeight={700}
-              fontSize="3xl"
-              justify="center"
-              textAlign="center"
-            >
-              <Text>
-                Easily raise funds on &nbsp;
-                <span className="text-purple-500">ZetaChain</span>
-              </Text>
-            </Flex>
-          </Show>
 
-          <div className="sm:text-sm md:text-2xl mt-3 font-montserrat font-normal text-purple-400 dark:text-purple-700 text-center">
-            Get
-            <FlipWords className="text-white" words={words_} />
-            on Zetachain{" "}
-          </div>
+            <Hide below="md">
+              <div className="flex gap-8 items-center">
+                <Button
+                  mt={10}
+                  cursor="pointer"
+                  bg="transparent"
+                  color="white"
+                  _hover={{ bg: "transparent", color: "gray.300" }}
+                  _active={{ bg: "transparent" }}
+                  size="md"
+                  onClick={() => setShowModal(true)}
+                >
+                  Join Waitlist
+                </Button>
 
-          <Hide below="md">
-            <div className="flex gap-8 items-center">
+                <Button
+                  mt={10}
+                  cursor="pointer"
+                  borderRadius={"10px"}
+                  borderColor="purple"
+                  variant={"purple"}
+                  px={3}
+                  py={1}
+                  maxW={"45%"}
+                  // fontSize="24px"
+                  size="md"
+                  onClick={() => {
+                    navigate("/connect-wallet");
+                  }}
+                >
+                  Get Started
+                </Button>
+              </div>
+            </Hide>
+          </Flex>
+
+          {showModal && (
+            <WaitlistModal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              addToWaitlist={addToWaitlist}
+              loading={loading}
+            />
+          )}
+
+          {/* right side */}
+          <Flex
+            gap={4}
+            flexDir="column"
+            justify={{ base: "center", md: "flex-end" }}
+            align={{ base: "center", md: "flex-end" }}
+            w={{ base: "90%", md: "40%" }}
+            mt={{ base: 10, md: 0 }}
+          >
+            <Lottie animationData={ICON} loop={true} />
+            <Show below="md">
               <Button
                 mt={10}
                 cursor="pointer"
@@ -145,113 +200,32 @@ function LandingPage() {
                 color="white"
                 _hover={{ bg: "transparent", color: "gray.300" }}
                 _active={{ bg: "transparent" }}
-                size="md"
+                size="sm"
                 onClick={() => setShowModal(true)}
               >
                 Join Waitlist
               </Button>
-
               <Button
-                mt={10}
-                cursor="pointer"
-                borderRadius={"10px"}
+                mt="2%"
+                borderRadius={"5px"}
                 borderColor="purple"
                 variant={"purple"}
-                px={3}
-                py={1}
-                maxW={"45%"}
-                // fontSize="24px"
-                size="md"
+                px={2}
+                py={2}
                 onClick={() => {
                   navigate("/connect-wallet");
                 }}
               >
                 Get Started
               </Button>
-
-              {/* <Button
-                mt={10}
-                cursor="pointer"
-                borderRadius={"10px"}
-                borderColor="purple"
-                variant={"purple"}
-                maxW={"45%"}
-                // fontSize="24px"
-                size="lg"
-                onClick={() => setShowModal(true)}
-              >
-                Join Waitlist
-              </Button> */}
-            </div>
-          </Hide>
+            </Show>
+          </Flex>
         </Flex>
-
-        {showModal && (
-          <WaitlistModal
-            showModal={showModal}
-            setShowModal={setShowModal}
-            addToWaitlist={addToWaitlist}
-            loading={loading}
-          />
-        )}
-
-        {/* right side */}
-        <Flex
-          gap={4}
-          flexDir="column"
-          justify={{ base: "center", md: "flex-end" }}
-          align={{ base: "center", md: "flex-end" }}
-          w={{ base: "90%", md: "40%" }}
-          mt={{ base: 10, md: 0 }}
-        >
-          <Lottie animationData={ICON} loop={true} />
-          <Show below="md">
-            <Button
-              mt={10}
-              cursor="pointer"
-              bg="transparent"
-              color="white"
-              _hover={{ bg: "transparent", color: "gray.300" }}
-              _active={{ bg: "transparent" }}
-              size="sm"
-              onClick={() => setShowModal(true)}
-            >
-              Join Waitlist
-            </Button>
-            <Button
-              mt="2%"
-              borderRadius={"5px"}
-              borderColor="purple"
-              variant={"purple"}
-              px={2}
-              py={2}
-              onClick={() => {
-                navigate("/connect-wallet");
-              }}
-            >
-              Get Started
-            </Button>
-
-            {/* <Button
-              mt="15%"
-              borderRadius={"5px"}
-              borderColor="purple"
-              variant={"purple"}
-              // px={2}
-              py={2}
-              // onClick={() => {
-              //   navigate("/connect-wallet");
-              // }}
-            >
-              Join Waitlist
-            </Button> */}
-          </Show>
-        </Flex>
-      </Flex>
-      <Box h="10vh">
-        <Footer />
+        <Box h="10vh">
+          <Footer />
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }
 
