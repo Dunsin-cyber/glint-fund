@@ -26,6 +26,7 @@ import {
 import { useWriteContract, useAccount } from "wagmi";
 import { config } from "../../utils/wagmi";
 import contractAbi from "../../contract/CrowdFunding-abi.json";
+import { BackgroundBeams } from "../../animations/background-beams";
 
 function Onboarding1() {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ function Onboarding1() {
   return (
     <Flex>
       {/* Left */}
+      <BackgroundBeams />
       <Show above="md">
         <Box
           display="flex"
@@ -62,6 +64,7 @@ function Onboarding1() {
       {/* Right */}
       <Box
         px={10}
+        zIndex={1000000}
         pl={{ md: "150px" }}
         pt={{ base: "5vh", md: "30vh" }}
         color="black"
@@ -69,8 +72,10 @@ function Onboarding1() {
         bgColor="primary.100"
       >
         <ArrowBackIcon
+          zIndex={1000000}
           mb={4}
           boxSize={6}
+          cursor="pointer"
           onClick={() => {
             if (step === 1) return;
             setStep((prev: number) => prev - 1);
@@ -129,18 +134,10 @@ function Step1() {
         {/* <Input value={publicKey?.toString()} isReadOnly size="lg" /> */}
       </Flex>
       {/* funding sector */}
-      <Flex
-        pt={8}
-        flexWrap="wrap"
-        // templateColumns={{
-        //   base: "repeat(3, 1fr)",
-        //   sm: "repeat(4, 1fr)",
-        //   md: "repeat(7, 1fr)",
-        // }}
-        gap={6}
-      >
+      <Flex zIndex={1000000} pt={8} flexWrap="wrap" gap={6}>
         {tags.map((tag: any) => (
           <Tag
+            zIndex={1000000}
             cursor="pointer"
             py={3}
             pl={4}
@@ -170,7 +167,7 @@ function Step1() {
             }}
             bgColor={"primary.50"}
           >
-            <TagLabel> {tag}</TagLabel>
+            <TagLabel zIndex={1000000}> {tag}</TagLabel>
           </Tag>
         ))}
       </Flex>
