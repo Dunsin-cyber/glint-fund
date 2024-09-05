@@ -44,8 +44,6 @@ function Details() {
   const [value, setValue] = React.useState<number>(0);
   const [dollarVal, setDollarVal] = React.useState(0);
   const [eqSendingDollar, seteqSendingDollar] = React.useState(0);
-  // Call the function with the token ID (e.g., "zetacoin" for Zeta)
-  // getTokenPrice("zetachain");
   const format = (val: number) => `Z` + val;
   const parse = (val: string) => val.replace(/^\Z/, "");
 
