@@ -15,7 +15,7 @@ import Navbar from "../Navbar/Nav2";
 import Footer from "../Footer";
 import { useAccount } from "wagmi";
 import { BackgroundBeams } from "../../animations/background-beams";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 function ConnectWallet() {
   const navigate = useNavigate();
@@ -38,9 +38,7 @@ function ConnectWallet() {
               Connect your wallet to raise funds with Zetachain and other assets
             </Text>
             <Flex mt={8}>
-              {/* <w3m-button balance="hide" /> */}
-              <ConnectButton/>
-              {/* <Button onClick={handleClick}>Connect Wallet</Button> */}
+              <ConnectButton />
             </Flex>
           </Center>
         </Container>
