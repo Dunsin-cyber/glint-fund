@@ -16,8 +16,7 @@ import { useAppSelector, useAppDispatch } from "../../redux/hook";
 import { addPrice } from "../../redux/slice/PriceSlice";
 
 function Onboarding2() {
-  const { setStep, amount, setAmount} =
-    React.useContext(AppContext);
+  const { setStep, amount, setAmount } = React.useContext(AppContext);
   console.log(amount);
   const format = (val: number) => `Z` + val;
   const parse = (val: string) => val.replace(/^\Z/, "");
@@ -27,15 +26,6 @@ function Onboarding2() {
 
   const handleChangeAmount = async (value: string) => {
     setAmount(+parse(value));
-    // const val = await getTokenConversion(amount);
-
-    // const data = {
-    //   usd: value,
-    //   zeta: val,
-    // };
-    // dispatch(addPrice(data));
-    // setConverstion(val);
-    // setConver(val);
   };
 
   React.useEffect(() => {
