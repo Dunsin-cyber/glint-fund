@@ -42,49 +42,66 @@ function Details() {
   const { address } = useAccount();
   const { error, writeContractAsync } = useWriteContract();
   const [value, setValue] = React.useState<number>(0);
-  const [zetaVal, setZetaVal] = React.useState(0);
-  const [eqSendingZeta, setEqSendingZeta] = React.useState(0);
+  const [dollarVal, setDollarVal] = React.useState(0);
+  const [eqSendingDollar, seteqSendingDollar] = React.useState(0);
   // Call the function with the token ID (e.g., "zetacoin" for Zeta)
-  getTokenPrice("zetachain");
+  // getTokenPrice("zetachain");
+  const format = (val: number) => `Z` + val;
+  const parse = (val: string) => val.replace(/^\Z/, "");
 
   const convert = async () => {
     var val = await getTokenConversion(Number(data[3]));
-    setZetaVal(val);
+    setDollarVal(val);
   };
-  if (data) {
-    convert();
-  }
+
+  // useEffect(() => {
+  //   if (data) {
+  //     convert();
+  //   }
+  // }, [data]);
   // const zetaAddress = getAddress("zrc20", "zeta_testnet");
 
+  const handleSend = async () => {
+    console.log(value);
+  };
+
   const handleDonate = async () => {
-    try {
-      if (eqSendingZeta <= 0) {
-        return toast("checking convertion.. please wait");
-      }
-      const hash = await writeContractAsync({
-        abi: contractAbi.abi,
-        address: contractAddress,
-        functionName: "donate",
-        value: parseEther(`${eqSendingZeta}`),
-        args: [id],
-      });
+    console.log(value);
+    // try {
+    //   if (value <= 0) {
+    //     return toast("Donate a higher value");
 
-      console.log(hash);
-      toast.success("Donation Successful");
-    } catch (err: any) {
-      toast.error(err.message);
-      return;
-    }
+    //     // return toast("checking convertion.. please wait");
+    //   }
+    //   console.log("got here");
+    //   const hash = await writeContractAsync({
+    //     abi: contractAbi.abi,
+    //     address: contractAddress,
+    //     functionName: "donate",
+    //     value: parseEther(`${value}`),
+    //     args: [id],
+    //   });
+
+    //   console.log(hash);
+    //   toast.success("Donation Successful");
+    // } catch (err: any) {
+    //   console.log(err);
+    //   toast.error(err.message);
+    //   return;
+    // }
   };
 
-  const handleSendVal = async (valueString: string) => {
+  const handleSendVal = (valueString: string) => {
     setValue(+parse(valueString));
-    const val = await getTokenConversion(value);
-    setEqSendingZeta(val);
   };
 
-  const format = (val: number) => `$` + val;
-  const parse = (val: string) => val.replace(/^\$/, "");
+  useEffect(() => {
+    const call = async () => {
+      const val = await getTokenConversion(value);
+      seteqSendingDollar(val);
+    };
+    call();
+  }, [value]);
 
   return (
     <SideNav>
@@ -124,7 +141,7 @@ function Details() {
               </Text>
             </Flex>
             <Flex color="#353535" mt={1}>
-              {zetaVal} ZETA
+              ${dollarVal}
             </Flex>
 
             <Flex
@@ -133,8 +150,8 @@ function Details() {
               mt={3}
               justify="space-between"
             >
-              <Text>${Number(data[6]) / 10 ** 18}</Text>
-              <Text>${Number(data[3])}</Text>
+              <Text>Z{Number(data[6]) / 10 ** 18}</Text>
+              <Text>Z{Number(data[3])}</Text>
             </Flex>
             <Progress
               color="#1935C4"
@@ -148,21 +165,21 @@ function Details() {
             <NumberInput
               defaultValue={0}
               min={0}
-              max={Number(data[3]) - Number(data[6]) / 10 ** 18}
+              // max={Number(data[3]) - Number(data[6]) / 10 ** 18}
               onChange={(valueString) => handleSendVal(valueString)}
               value={format(value)}
             >
-              <NumberInputField my={3} placeholder="how much in dollars?" />
+              <NumberInputField my={3} placeholder="how much in zeta?" />
             </NumberInput>
             <Button
-              onClick={handleDonate}
+              onClick={handleSend}
               w={"full"}
               my={3}
               color="white"
               bgColor="purple"
-              isDisabled={eqSendingZeta <= 0}
+              // isDisabled={eqSendingDollar <= 0}
             >
-              Send {eqSendingZeta} Zeta to {data[2]}
+              Send $ {eqSendingDollar} to {data[2]}
             </Button>
           </Box>
         </Box>
