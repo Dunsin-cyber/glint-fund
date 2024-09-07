@@ -10,7 +10,7 @@ import {
   Heading,
   Badge,
   Progress,
-  Tag
+  Tag,
 } from "@chakra-ui/react";
 import { AppContext } from "../../Context";
 import { Link } from "react-router-dom";
@@ -41,14 +41,12 @@ function Campaign() {
           msOverflowStyle: "none", // Hide scrollbar for Internet Explorer and Edge
         }}
         flexDirection={"column"}
+        mx={6}
       >
         <Flex justify="Center" align="center">
           <Text fontWeight={600}>Campaign</Text>
         </Flex>
-        <Grid
-          templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(4, 1fr)" }}
-          gap={6}
-        >
+        <Flex pt={8} gap={6} flexWrap="wrap" justify="center">
           {campaigns?.map((camp: any) => (
             <Link
               style={{ textDecoration: "none" }}
@@ -65,10 +63,9 @@ function Campaign() {
               />
             </Link>
           ))}
-        </Grid>
+        </Flex>
       </Flex>
     </HalfSide>
-
   );
 }
 
@@ -80,17 +77,20 @@ type CardT = {
   description: string;
   amountRequired: number;
   amountDonated: number;
-  tags:[string]
+  tags: [string];
 };
 
-const colors = [
-  "#C5AFEA", "#E2E8F0", "#FBCFE8"
-]
+const colors = ["#C5AFEA", "#E2E8F0", "#FBCFE8"];
 const randomColor = Math.floor(Math.random() * colors.length);
 
-
-
-function Card({ id, name, description, amountDonated, amountRequired , tags}: CardT) {
+function Card({
+  id,
+  name,
+  description,
+  amountDonated,
+  amountRequired,
+  tags,
+}: CardT) {
   const progress = (amountDonated / amountRequired) * 100;
 
   const pics = [
@@ -107,7 +107,6 @@ function Card({ id, name, description, amountDonated, amountRequired , tags}: Ca
     "coin.jpg",
   ];
 
-
   const random = Math.floor(Math.random() * pics.length);
 
   return (
@@ -115,7 +114,7 @@ function Card({ id, name, description, amountDonated, amountRequired , tags}: Ca
       <Box
         p="5"
         maxW="301px"
-       borderRadius="md"
+        borderRadius="md"
         borderWidth="1px"
         borderColor="#C5AFEA"
         cursor="pointer"
@@ -151,11 +150,12 @@ function Card({ id, name, description, amountDonated, amountRequired , tags}: Ca
           </Text>
         </Flex>
         <Flex gap={2}>
-        {tags.map(tag => (
-          <Tag key={tag} bgColor={colors[randomColor]}>{tag}</Tag> 
-
-        ))}
-      </Flex>
+          {tags.map((tag) => (
+            <Tag key={tag} bgColor={colors[randomColor]}>
+              {tag}
+            </Tag>
+          ))}
+        </Flex>
       </Box>
     </Center>
   );
