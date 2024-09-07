@@ -9,7 +9,7 @@
 - [License](#license)
 - [Contact](#contact)
 
-- ## Features
+  ## Features
 
 - **Multi-Token Fundraising:** Raise funds in any token supported by Zetachain.
 - **Lending and Borrowing:** Access decentralized lending and borrowing services.
@@ -17,11 +17,11 @@
 - **Omnichain Support:** Utilize Zetachain’s omnichain features for seamless multi-token transactions.
 - **Low Fees:** Benefit from low transaction fees on the Zetachain blockchain.
 
-- ## Contributing
+  ## Contributing
 We welcome contributions from the community! To contribute, please follow our Contributing Guidelines.
 
-- ## License
+  ## License
 This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
 
-- ## Contact
+  ## Contact
 ..............
