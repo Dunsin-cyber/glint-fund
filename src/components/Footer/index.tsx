@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text, Link, Flex, Button } from "@chakra-ui/react";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaXTwitter, FaGithub,  FaMedium } from "react-icons/fa6";
 import { FaDiscord } from "react-icons/fa";
 
 function Footer() {
@@ -46,6 +46,20 @@ function Footer() {
           rel="GlintFund Discord"
         >
           <FaDiscord />
+        </a>
+        <a
+          href="https://github.com/Dunsin-cyber/glint-fund"
+          target="_blank"
+          rel="GlintFund Github"
+        >
+        <FaGithub />
+        </a>
+        <a
+          href="https://medium.com/@glintfund"
+          target="_blank"
+          rel="GlintFund Medium"
+        >
+        <FaMedium />
         </a>
       </Flex>
     </Flex>
