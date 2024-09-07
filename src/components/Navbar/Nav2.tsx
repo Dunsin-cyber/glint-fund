@@ -10,7 +10,7 @@ function Nav2() {
         </Text>
       </Flex>
       <Hide below="md">
-        <Flex gap={12} align="center" justify="center">
+        <Flex gap={12} align="center" justify="center"  zIndex={100000}>
           <Button
             borderRadius={"10px"}
             variant={"purple"}
@@ -21,9 +21,26 @@ function Nav2() {
           >
             Home
           </Button>
-          <Text cursor={"pointer"}>Learn</Text>
+          <a
+           href="https://medium.com/@glintfund"
+           target="_blank"
+           rel="GlintFund Medium"
+         >
+          <Text cursor={"pointer"} >Learn</Text> </a>
+          <a
+          href="https://discord.gg/c7zQwM5h2E"
+          target="_blank"
+          rel="GlintFund Discord"
+        >
           <Text cursor={"pointer"}>Community</Text>
+          </a>
+          <a
+          href="https://x.com/glintfund"
+          target="_blank"
+          rel="GlintFund Twitter"
+        >
           <Text cursor={"pointer"}>Support</Text>
+          </a>
         </Flex>
       </Hide>
     </Flex>
