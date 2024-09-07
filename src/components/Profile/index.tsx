@@ -11,17 +11,19 @@ import {
   Show,
   Progress,
   Hide,
+  keyframes,
 } from "@chakra-ui/react";
 import { AppContext } from "../../Context";
 import { useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
-// import { CopyToClipboard } from "react-copy-to-clipboard";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CopyIcon } from "@chakra-ui/icons";
 import { motion } from "framer-motion";
 import { useWriteContract } from "wagmi";
 import contractAbi from "../../contract/CrowdFunding-abi.json";
 import toast from "react-hot-toast";
-import MobileNavBar from "../Navbar/MobileNavbar"
+import MobileNavBar from "../Navbar/MobileNavbar";
+import { getTokenConversion } from "../../utils/tokenPrice";
 
 import { Transactions } from "../Campaign/Details";
 import SideNav from "../SideNav";
@@ -37,22 +39,34 @@ import { contractAddress } from "../../hooks";
 
 const AnimatedCopyIcon = motion(CopyIcon);
 
+const bounce = keyframes`
+  0%, 50% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+`;
+
 function Index() {
   const { user } = React.useContext(AppContext);
   const location = useLocation();
-  const fullUrl = window.location.origin + "/details/" + user.pda;
   const { data: dd } = useGetAllCampaigns();
   const { address } = useAccount();
   const data = useAppSelector((state) => state.campaign);
+  const fullUrl = window.location.origin + "/details/" + data.id;
 
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [converstion, setConverstion] = React.useState(0);
   const { writeContractAsync } = useWriteContract();
   const variants = {
     normal: { scale: 1, color: "#7F7F7F" },
     hovered: { scale: 1.2 },
     clicked: { rotate: 360, scale: 1.2, color: "#341A41" },
   };
+
+  const bounceAnimation = `${bounce} 3s ease-in-out infinite`;
 
   const handleClaim = async () => {
     try {
@@ -71,6 +85,16 @@ function Index() {
       return;
     }
   };
+
+  React.useEffect(() => {
+    const cc = async () => {
+      const val = await getTokenConversion(data.amountRequired);
+      setConverstion(val);
+    };
+    if (data) {
+      cc();
+    }
+  }, [data]);
 
   return (
     <SideNav>
@@ -102,11 +126,11 @@ function Index() {
           />
         </Hide>
         <Show below="md">
-          <Flex justify="center" mx="auto" >
-          <OptionCard_
-            title={"Crowdfunding"}
-            description="easily raise funds under 10 seconds"
-          />
+          <Flex justify="center" mx="auto">
+            <OptionCard_
+              title={"Crowdfunding"}
+              description="easily raise funds under 10 seconds"
+            />
           </Flex>
         </Show>
       </Flex>
@@ -141,12 +165,12 @@ function Index() {
             </Text>
           </Flex>
           <Flex color="#353535" mt={1}>
-            6.6 ZETA
+            ${converstion}
           </Flex>
 
           <Flex color="#1935C4" fontWeight={600} mt={3} justify="space-between">
-            <Text>${Number(data.amountDonated)}</Text>
-            <Text>${Number(data.amountRequired)}</Text>
+            <Text>Z{Number(data.amountDonated)}</Text>
+            <Text>Z{Number(data.amountRequired)}</Text>
           </Flex>
           <Progress
             color="#1935C4"
@@ -154,28 +178,19 @@ function Index() {
               (Number(data.amountDonated) / Number(data.amountRequired)) * 100
             )}
           />
-
-          <Link>
-            <Input
-              fontStyle={"italic"}
-              color="#7F7F7F"
-              isReadOnly
-              value={fullUrl}
-              w={"250px"}
-            />
-            {/* <CopyToClipboard text={fullUrl}>
+          <Flex mt={3} animation={bounceAnimation}>
+            Copy your Donation Link{" "}
             <AnimatedCopyIcon
-            style={{ color: "#7F7F7F" }}
-            boxSize={6}
-            variants={variants}
-            initial="normal"
-            animate={isClicked ? "clicked" : isHovered ? "hovered" : "normal"}
-            onMouseEnter={() => setIsHovered(true)}
+              style={{ color: "#7F7F7F" }}
+              boxSize={6}
+              variants={variants}
+              initial="normal"
+              animate={isClicked ? "clicked" : isHovered ? "hovered" : "normal"}
+              onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               onClick={() => setIsClicked(!isClicked)}
             />
-          </CopyToClipboard> */}
-          </Link>
+          </Flex>
         </Box>
       )}
       <Button
@@ -189,7 +204,7 @@ function Index() {
       >
         Claim Donation
       </Button>
-   {/*    <Show below="md">
+      {/*    <Show below="md">
       <Flex mt="50%" maxW="100%">
       <MobileNavBar/>
       </Flex>
