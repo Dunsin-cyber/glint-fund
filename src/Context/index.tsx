@@ -105,7 +105,11 @@ export const AppProvider = ({ children }: any) => {
     const userExist = campaigns?.filter(
       (campaign: any) => campaign.admin === address
     );
-    if (userExist === undefined) return;
+    // console.log(userExist, "UserExist");
+    // console.log(campaigns, "camp");
+    if (userExist === undefined) {
+      return;
+    }
     if (!address && location.pathname.includes("details/")) {
       return;
     } else if (!address) {
@@ -121,7 +125,8 @@ export const AppProvider = ({ children }: any) => {
         id: userExist[0].id,
       };
       dispatch(addCampaign(user));
-      const previousPage = location.state?.from; /* || "campaign"; */
+      const previousPage = location.state?.from || "campaign";
+      console.log(previousPage);
       navigate(previousPage);
     } else if (userExist.length === 0) {
       navigate("/onboarding");
