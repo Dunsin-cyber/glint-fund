@@ -1,4 +1,5 @@
 import { useWriteContract, useReadContract } from "wagmi";
+import React, { useEffect, useState } from "react";
 import contractAbi from "../contract/CrowdFunding-abi.json";
 import type { Address } from "viem";
 import { config } from "../utils/wagmi";
@@ -12,15 +13,17 @@ type ReturnType = {
   refetch?: any;
 };
 
-export const useGetACampaign = (id: any): ReturnType => {
-  console.log("contract called with param", id);
+/* 
+
+export const useGetACampaign = (id: any, enabled?: boolean): ReturnType => {
   const { data, error } = useReadContract({
     abi: contractAbi.abi,
     address: contractAddress,
     functionName: "campaigns",
     args: [id],
+    query: { enabled },
   });
-  console.log("contract success with data", data);
+
   return {
     isLoading: !data && !error,
     data,
@@ -28,6 +31,58 @@ export const useGetACampaign = (id: any): ReturnType => {
   };
 };
 
+*/
+
+export const useGetACampaign_ = (id: any) => {
+  const [campaignData, setCampaignData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<any>(null);
+
+  // Only fetch the data if it hasn't been fetched already
+  const { data, error: fetchError } = useReadContract({
+    abi: contractAbi.abi,
+    address: contractAddress,
+    functionName: "campaigns",
+    args: [id],
+    query: { enabled: !campaignData && !!id }, // Only fetch if no campaignData yet and id is valid
+  });
+
+  useEffect(() => {
+    if (data && !campaignData) {
+      setCampaignData(data); // Store fetched data in state
+      setLoading(false); // Stop loading once data is fetched
+    } else if (fetchError) {
+      setError(fetchError);
+      setLoading(false); // Stop loading on error
+    }
+  }, [data, fetchError, campaignData]);
+
+  return {
+    isLoading: loading,
+    data: campaignData,
+    error,
+  };
+};
+
+export const useGetACampaign = (id: any) => {
+  console.log("--calling--");
+
+  const shouldFetch = React.useMemo(() => !!id, [id]); // Only allow fetching if id exists
+
+  const { data, error } = useReadContract({
+    abi: contractAbi.abi,
+    address: contractAddress,
+    functionName: "campaigns",
+    args: [id],
+    query: { enabled: shouldFetch }, // Prevent fetching if id is invalid
+  });
+
+  return {
+    isLoading: !data && !error,
+    data,
+    error,
+  };
+};
 export const useGetAllCampaigns = (): ReturnType => {
   const { data, error, refetch } = useReadContract({
     abi: contractAbi.abi,

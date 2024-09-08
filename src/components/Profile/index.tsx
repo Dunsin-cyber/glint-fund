@@ -25,7 +25,7 @@ import toast from "react-hot-toast";
 import MobileNavBar from "../Navbar/MobileNavbar";
 import { getTokenConversion } from "../../utils/tokenPrice";
 
-import { Transactions } from "../Campaign/Details";
+// import { Transactions } from "../Campaign/Details";
 import SideNav from "../SideNav";
 import {
   useGetACampaign,
