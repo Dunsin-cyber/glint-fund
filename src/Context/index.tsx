@@ -106,8 +106,10 @@ export const AppProvider = ({ children }: any) => {
       (campaign: any) => campaign.admin === address
     );
     if (userExist === undefined) return;
-    if (!address) {
-      // navigate("/");
+    if (!address && location.pathname.includes("details/")) {
+      return;
+    } else if (!address) {
+      navigate("/");
     } else if (userExist.length > 0) {
       var user = {
         address,
@@ -119,7 +121,8 @@ export const AppProvider = ({ children }: any) => {
         id: userExist[0].id,
       };
       dispatch(addCampaign(user));
-      navigate("/profile");
+      const previousPage = location.state?.from; /* || "campaign"; */
+      navigate(previousPage);
     } else if (userExist.length === 0) {
       navigate("/onboarding");
     }
@@ -144,7 +147,7 @@ export const AppProvider = ({ children }: any) => {
         initUser,
         getAllCampaigns,
         getACampaign,
-        donate
+        donate,
       }}
     >
       {children}

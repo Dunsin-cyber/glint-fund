@@ -25,7 +25,12 @@ import { ChatIcon } from "@chakra-ui/icons";
 import { IoIosArrowBack } from "react-icons/io";
 import SideNav from "../SideNav/HalfSide";
 import { contractAddress, useGetACampaign } from "../../hooks";
-import { useWriteContract, useAccount, useSimulateContract } from "wagmi";
+import {
+  useWriteContract,
+  useAccount,
+  useSimulateContract,
+  useReadContract,
+} from "wagmi";
 // import { getAddress } from "@zetachain/protocol-contracts";
 import toast from "react-hot-toast";
 // import { zetachainAthensTestnet } from "viem/chains";
@@ -46,6 +51,23 @@ function Details() {
   const [eqSendingDollar, seteqSendingDollar] = React.useState(0);
   const format = (val: number) => `Z` + val;
   const parse = (val: string) => val.replace(/^\Z/, "");
+
+  // React.useEffect(() => {
+  //   const { data, error } = useReadContract({
+  //     abi: contractAbi.abi,
+  //     address: contractAddress,
+  //     functionName: "campaigns",
+  //     args: [id],
+  //   });
+
+  //   console.log(data);
+
+  //   // return {
+  //   //   isLoading: !data && !error,
+  //   //   data,
+  //   //   error,
+  //   // };
+  // }, [id]);
 
   const convert = async () => {
     var val = await getTokenConversion(Number(data[3]));
@@ -93,13 +115,13 @@ function Details() {
     setValue(+parse(valueString));
   };
 
-  useEffect(() => {
-    const call = async () => {
-      const val = await getTokenConversion(value);
-      seteqSendingDollar(val);
-    };
-    call();
-  }, [value]);
+  // useEffect(() => {
+  //   const call = async () => {
+  //     const val = await getTokenConversion(value);
+  //     seteqSendingDollar(val);
+  //   };
+  //   call();
+  // }, [value]);
 
   return (
     <SideNav>
@@ -177,7 +199,7 @@ function Details() {
               bgColor="purple"
               // isDisabled={eqSendingDollar <= 0}
             >
-              Send $ {eqSendingDollar} to {data[2]}
+              Send{/*  $ {eqSendingDollar} to {data[2]} */}
             </Button>
           </Box>
         </Box>

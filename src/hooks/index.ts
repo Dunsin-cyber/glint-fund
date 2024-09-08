@@ -13,12 +13,14 @@ type ReturnType = {
 };
 
 export const useGetACampaign = (id: any): ReturnType => {
+  console.log("contract called with param", id);
   const { data, error } = useReadContract({
     abi: contractAbi.abi,
     address: contractAddress,
     functionName: "campaigns",
     args: [id],
   });
+  console.log("contract success with data", data);
   return {
     isLoading: !data && !error,
     data,

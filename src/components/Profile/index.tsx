@@ -178,19 +178,23 @@ function Index() {
               (Number(data.amountDonated) / Number(data.amountRequired)) * 100
             )}
           />
-          <Flex mt={3} animation={bounceAnimation}>
-            Copy your Donation Link{" "}
-            <AnimatedCopyIcon
-              style={{ color: "#7F7F7F" }}
-              boxSize={6}
-              variants={variants}
-              initial="normal"
-              animate={isClicked ? "clicked" : isHovered ? "hovered" : "normal"}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              onClick={() => setIsClicked(!isClicked)}
-            />
-          </Flex>
+          <CopyToClipboard text={fullUrl}>
+            <Flex mt={3} animation={bounceAnimation}>
+              Copy your Donation Link{" "}
+              <AnimatedCopyIcon
+                style={{ color: "#7F7F7F" }}
+                boxSize={6}
+                variants={variants}
+                initial="normal"
+                animate={
+                  isClicked ? "clicked" : isHovered ? "hovered" : "normal"
+                }
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                onClick={() => setIsClicked(!isClicked)}
+              />
+            </Flex>
+          </CopyToClipboard>
         </Box>
       )}
       <Button
