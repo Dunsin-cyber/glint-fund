@@ -79,7 +79,7 @@ function Onboarding3() {
       </Box>
       {/* put your details */}
       <Flex flexDirection="column" gap={3} pt={4} w={"100%"}>
-        <Text my={3}>Name</Text>
+        <Text my={3}>Title</Text>
         <Input
           value={bio.name}
           onChange={(e) =>
@@ -88,7 +88,7 @@ function Onboarding3() {
               name: e.target.value,
             })
           }
-          name="title"
+          name="name"
           placeholder="what is the title of the campaign"
         />
         <Text my={3}>Description</Text>
