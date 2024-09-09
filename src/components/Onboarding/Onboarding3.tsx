@@ -88,8 +88,8 @@ function Onboarding3() {
               name: e.target.value,
             })
           }
-          name="name"
-          placeholder="what is your name"
+          name="title"
+          placeholder="what is the title of the campaign"
         />
         <Text my={3}>Description</Text>
         <Textarea

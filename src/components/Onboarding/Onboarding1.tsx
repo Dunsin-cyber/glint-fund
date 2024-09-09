@@ -71,7 +71,7 @@ function Onboarding1() {
         bgColor="primary.100"
       >
         <ArrowBackIcon
-          zIndex={1000000}
+          zIndex={10000000000}
           mb={4}
           boxSize={6}
           cursor="pointer"
@@ -102,6 +102,8 @@ const tagVal = [
   "Education",
   "kids",
   "climate",
+  "sport",
+  "tech",
 ];
 
 function Step1() {
