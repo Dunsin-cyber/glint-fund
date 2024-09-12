@@ -143,10 +143,10 @@ function Card({
         <Progress size="sm" borderRadius="md" value={progress} />
         <Flex mt={2} justify="space-between" align="center">
           <Text ml={1} fontSize="sm">
-            <b>${amountDonated}</b>
+            <b>Z{amountDonated}</b>
           </Text>
           <Text ml={1} fontSize="sm">
-            <b>${amountRequired}</b>
+            <b>Z{amountRequired}</b>
           </Text>
         </Flex>
         <Flex gap={2}>
