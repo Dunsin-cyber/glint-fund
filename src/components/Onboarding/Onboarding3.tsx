@@ -73,8 +73,7 @@ function Onboarding3() {
         </Text>
         <Text pt={4} fontSize="16px">
           funding are 100 percent on-chain, secure and tamper-proof on the
-          zetachain blockchain. You can fund with any of the zetachain tokens
-          but primarily with zetachain
+          zetachain. You can fund with any of the tokens but primarily with zeta
         </Text>
       </Box>
       {/* put your details */}
