@@ -43,6 +43,7 @@ function Details() {
   const format = (val: number) => `Z${val}`;
   const parse = (val: string) => val.replace(/^\Z/, "");
   const { connectAsync } = useConnect();
+  const [loading, setLoading] = useState<boolean>(false);
   const { data, error, writeContractAsync } = useWriteContract({
     config,
   });
@@ -63,6 +64,7 @@ function Details() {
 
   const handleDonate = async () => {
     try {
+      setLoading(true);
       if (value <= 0) {
         return toast.error("you can't send below 0 Zeta");
       } else if (!address) {
@@ -80,8 +82,10 @@ function Details() {
       });
 
       console.log(hash);
+      setLoading(false);
       toast.success("Donation Successful");
     } catch (err: any) {
+      setLoading(false);
       toast.error(err.message);
       return;
     }
@@ -167,6 +171,7 @@ function Details() {
             my={3}
             color="white"
             bgColor="purple"
+            isLoading={loading}
           >
             Send
           </Button>
