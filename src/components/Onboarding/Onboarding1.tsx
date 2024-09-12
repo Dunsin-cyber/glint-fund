@@ -104,6 +104,7 @@ const tagVal = [
   "climate",
   "sport",
   "tech",
+  "community",
 ];
 
 function Step1() {
