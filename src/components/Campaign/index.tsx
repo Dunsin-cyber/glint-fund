@@ -25,7 +25,6 @@ function Campaign() {
   const { data: campaigns, isLoading } = useGetAllCampaigns();
   console.log(campaigns);
 
-  // const campaigns = useAppSelector((state) => state.campaign);
   return (
     <HalfSide>
       <Flex
