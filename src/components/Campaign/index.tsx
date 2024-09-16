@@ -37,7 +37,7 @@ function Campaign() {
             display: "none", // Hide scrollbar for Chrome, Safari, and Opera
           },
           scrollbarWidth: "none",
-          msOverflowStyle: "none", // Hide sc
+          msOverflowStyle: "none",
         }}
         flexDirection={"column"}
         mx={6}
