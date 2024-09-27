@@ -9,6 +9,10 @@ import {
   InputLeftElement,
   NumberInput,
   NumberInputField,
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { AppContext } from "../../Context";
 import { getTokenConversion } from "../../utils/tokenPrice";
@@ -40,6 +44,7 @@ function Onboarding2() {
   return (
     <Box>
       <Box>
+        <Warning />
         <Text fontSize="32px" fontWeight={600}>
           How much would you like to raise?
         </Text>
@@ -97,3 +102,17 @@ function Onboarding2() {
 }
 
 export default Onboarding2;
+
+function Warning() {
+  return (
+    <Alert status="warning" fontSize="sm">
+      <AlertIcon />
+      <Box>
+        <AlertTitle>KYC needed for Larger Donations!</AlertTitle>
+        <AlertDescription>
+          don't worry, it all happens on-chain
+        </AlertDescription>
+      </Box>
+    </Alert>
+  );
+}
