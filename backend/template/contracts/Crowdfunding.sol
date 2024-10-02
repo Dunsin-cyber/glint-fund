@@ -4,16 +4,16 @@ pragma solidity 0.8.7;
 // import "@openzeppelin/contracts/access/Ownable.sol";
 import "@zetachain/protocol-contracts/contracts/zevm/SystemContract.sol";
 import "@zetachain/protocol-contracts/contracts/evm/tools/ZetaInteractor.sol";
-// import {RevertContext, RevertOptions} from "@zetachain/protocol-contracts/contracts/Revert.sol";
-// import "@zetachain/protocol-contracts/contracts/zevm/interfaces/UniversalContract.sol";
-// import "@zetachain/protocol-contracts/contracts/zevm/interfaces/IGatewayZEVM.sol";
-// import "@zetachain/protocol-contracts/contracts/zevm/GatewayZEVM.sol";
+import {RevertContext, RevertOptions} from "@zetachain/protocol-contracts/contracts/Revert.sol";
+import "@zetachain/protocol-contracts/contracts/zevm/interfaces/UniversalContract.sol";
+import "@zetachain/protocol-contracts/contracts/zevm/interfaces/IGatewayZEVM.sol";
+import "@zetachain/protocol-contracts/contracts/zevm/GatewayZEVM.sol";
 import "@zetachain/protocol-contracts/contracts/zevm/interfaces/zContract.sol";
 import "@zetachain/toolkit/contracts/OnlySystem.sol";
 
 contract Crowdfunding is zContract, OnlySystem, UniversalContract {
     SystemContract public systemContract;
-    // GatewayZEVM public gateway;
+    GatewayZEVM public gateway;
 
     ZetaTokenConsumer private immutable _zetaConsumer;
     IERC20 internal immutable _zetaToken;
@@ -73,7 +73,7 @@ contract Crowdfunding is zContract, OnlySystem, UniversalContract {
 
     constructor(address systemContractAddress, address payable gatewayAddress) {
         systemContract = SystemContract(systemContractAddress);
-        // gateway = GatewayZEVM(gatewayAddress);
+        gateway = GatewayZEVM(gatewayAddress);
     }
 
     function create(
@@ -224,8 +224,22 @@ contract Crowdfunding is zContract, OnlySystem, UniversalContract {
         uint256 destinationChainId,
         string memory name,
         string memory description,
-        uint256 amountRequired
+        uint256 amountRequired,
+        bytes calldata message
+
     ) public {
+        
+         campaigns[campaignCount] = Campaign({
+            id: uint8(campaignCount),
+            admin: msg.sender,
+            name: name,
+            description: description,
+            amountRequired: amountRequired,
+            amountDonated: 0,
+            donationComplete: false,
+            tags: tags
+        });
+        
         // Encode the campaign details
         bytes memory message = abi.encode(name, description, amountRequired);
         uint256 zetaValueAndGas = _zetaConsumer.getZetaFromEth{

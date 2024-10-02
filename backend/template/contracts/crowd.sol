@@ -20,10 +20,15 @@ contract CrossChainCrowdfunding is zContract, OnlySystem {
         uint256 amountDonated;
         uint256 endTime;
         bool donationComplete;
+        uint8 id; // Campaign ID
+        address payable admin; // Campaign admin
+        string[] tags; // Campaign tags
+
     }
 
     // Structure for user profiles
     struct UserProfile {
+        address userAddress;
         string username;
         string email;
         string bio;
